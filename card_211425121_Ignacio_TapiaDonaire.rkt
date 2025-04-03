@@ -1,6 +1,6 @@
 #lang racket
 
-; Descripción: Funcion constructor para las cartas del juego CAPITALIA
+; Descripción: Constructor para las cartas del juego CAPITALIA
 ; DOM: id (int) tipo (string) descripcion (string) accion (funcion)
 ; REC: card (lista)
 ; Tipo recursión: No aplica

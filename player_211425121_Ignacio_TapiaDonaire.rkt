@@ -1,8 +1,8 @@
 #lang racket
 
-; Descripcion: crea al jugador del juego CAPITALIA
-; Dominio: id (int) nombre (string) dinero (int) propiedades (list) posicion (int) estaEnCarcel (boolean) totalCartasSalirCarcecl (int)
-; Recorrido: player (lista)
+; Descripción: Constructor de los jugadores en CAPITALIA
+; DOM: id (int) nombre (string) dinero (int) propiedades (list) posicion (int) estaEnCarcel (boolean) totalCartasSalirCarcecl (int)
+; REC: player (lista)
 ; Tipo recursion: no aplica
 
 (define (player id nombre dinero propiedades posicion estaEnCarcel totalCartasSalirCarcel)

@@ -1,8 +1,8 @@
 #lang racket
 
-; Descripcion: contiene las propiedades del tablero en si mismo
-; Dominio: property (lista) card-luck (lista) card-community (lista) special-space (lista)
-; Recorrido: board (lista)
+; Descripción: Constructor para guardar la información de las casillas en CAPITALIA
+; DOM: property (lista) card-luck (lista) card-community (lista) special-space (lista)
+; REC: board (lista)
 ; Tipo recursion: no aplica
 
 (define (board property card-luck card-community special-space)
