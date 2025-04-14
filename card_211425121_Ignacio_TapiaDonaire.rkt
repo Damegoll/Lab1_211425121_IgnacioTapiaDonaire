@@ -1,4 +1,5 @@
 #lang racket
+(provide card)
 
 ; Descripción: Constructor para las cartas del juego CAPITALIA
 ; DOM: id (int) tipo (string) descripcion (string) accion (funcion)

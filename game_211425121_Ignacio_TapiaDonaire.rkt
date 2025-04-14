@@ -1,8 +1,7 @@
 #lang racket
-(require "player_211425121_Ignacio_TapiaDonaire.rkt") 
+(require "player_211425121_Ignacio_TapiaDonaire.rkt")
 (provide game)
 (provide game-add-player)
-
 
 
 
@@ -18,11 +17,12 @@
 (define (game game-player board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles estadoJuego)
   (list game-player board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles estadoJuego))
 
-;game-add-player
-;descripcion despues -------- Modificador
+; -----------------------------------------------------------------
 
-(define (game-add-player new-game new-player)
-  (list new-game new-player))
+; Descripción: Modificador que agrega jugadores a CAPITALIA
+; DOM: juegoActual (game) jugadorNuevo (player)
+; REC: game (game)
+; Tipo recursion: no aplica
 
-;game-obtain-actual-player
-;Selector
+(define (game-add-player juegoActual jugadorNuevo)
+  (cons (append (car juegoActual) (list jugadorNuevo)) (cdr juegoActual)))

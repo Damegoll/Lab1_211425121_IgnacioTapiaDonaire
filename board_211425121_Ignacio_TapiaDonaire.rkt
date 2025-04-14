@@ -1,8 +1,7 @@
 #lang racket
 (require "property_211425121_Ignacio_TapiaDonaire.rkt")
-(provide board-add-property)
 (provide board)
-
+(provide board-add-property)
 
 
 
@@ -18,13 +17,13 @@
 
 ; -----------------------------------------------------------------
 
-;board-add-property
+; board-add-property
+; Descripcion: Modificador que agrega las propiedades al tablero del juego CAPITALIA
+; DOM: tableroActual (lista) prop (property) pos (int)
+; REC: board (board)
+; Tipo recursion: no aplica
 
-;Descripción: Modificador para agregar propiedades al tablero
-;DOM: board-place (make-board) property-pos (lista de make-property pos)
-;REC: make-board (lista)
-;Tipo recursion: No aplica
+(define (board-add-property tableroActual prop pos)
+  (cons (append (car tableroActual) (list prop)) (cdr tableroActual)))
 
-
-(define (board-add-property board-place new-property pos)
-  (list board-place (cons new-property (cons pos null))))
+; -----------------------------------------------------------------

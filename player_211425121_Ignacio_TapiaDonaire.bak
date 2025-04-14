@@ -1,9 +1,30 @@
 #lang racket
+(require "board_211425121_Ignacio_TapiaDonaire.rkt")
+(require "game_211425121_Ignacio_TapiaDonaire.rkt")
+(provide player)
 
-; Descripcion: crea al jugador del juego CAPITALIA
-; Dominio: id (int) nombre (string) dinero (int) propiedades (list) posicion (int) estaEnCarcel (boolean) totalCartasSalirCarcecl (int)
-; Recorrido: player (lista)
+
+
+
+; Descripción: Constructor de los jugadores en CAPITALIA
+; DOM: id (int) nombre (string) personaje (string) dinero (int) propiedades (list) posicion (int) estaEnCarcel (boolean) totalCartasSalirCarcecl (int)
+; REC: player (lista)
 ; Tipo recursion: no aplica
 
-(define (player id nombre dinero propiedades posicion estaEnCarcel totalCartasSalirCarcel)
-  (list id nombre dinero propiedades estaEnCarcel totalCartasSalirCarcel))
+(define (player id nombre personaje dinero propiedades posicion estaEnCarcel totalCartasSalirCarcel)
+  (list id nombre personaje dinero propiedades posicion estaEnCarcel totalCartasSalirCarcel))
+
+;game-move
+;modificador
+
+#|(define (avanza-jugador act-player dice-val act-game)
+  ())|#
+
+;mover al jugador
+;move-player, modificador
+
+#|(define (move-player player dice-value game)
+  (let* ((sum-dice (apply + dice-values))
+         (current-pos (list-ref player 5))
+         (new-pos (+ current-pos sum-dice)))
+    ))|#
