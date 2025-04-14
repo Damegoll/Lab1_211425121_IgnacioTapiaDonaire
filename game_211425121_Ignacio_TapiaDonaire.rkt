@@ -3,12 +3,6 @@
 (provide game)
 (provide game-add-player)
 
-
-
-
-
-
-
 ; Descipción: Constructor que inicializa el juego CAPITALIA
 ; DOM: player (lista) board (board) dineroBanco (int) numeroDados (int) turnoActual (int) tasaImpuesto (int) maximoCasas (int) maximoHoteles (int) estadoJuego (string)
 ; REC: game (lista)
@@ -26,3 +20,30 @@
 
 (define (game-add-player juegoActual jugadorNuevo)
   (cons (append (car juegoActual) (list jugadorNuevo)) (cdr juegoActual)))
+
+; -----------------------------------------------------------------
+
+; Descripción: Selector que obtiene el turno del jugador actual, implementacion no definitiva
+; DOM: jugadorTurno (game)
+; REC: game (game)
+; Tipo recursion: no aplica
+
+(define (game-get-player-turn jugadorTurno)
+  (car jugadorTurno))
+
+; -----------------------------------------------------------------
+
+; Descripción: TDA de tipo "otro" que tira los dados, saca su suma y los muestra en pantalla
+; DOM: Null
+; REC: valorDado1 (int) valorDado2 (int)
+; Tipo recursion: no aplica
+
+(define game-throw-dice
+  (lambda ()
+    (display "Dado 1: ")
+    (display (random 1 6))
+    (newline)
+    (display "Dado 2: ")
+    (display (random 1 6))
+    (newline)))
+; comentario extra: esto es una solucion temporal, sirve por ahora
