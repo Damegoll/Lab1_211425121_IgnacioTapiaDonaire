@@ -33,17 +33,13 @@
 
 ; -----------------------------------------------------------------
 
-; Descripción: TDA de tipo "otro" que tira los dados, saca su suma y los muestra en pantalla
+; Descripción: TDA de tipo "otro" que tira los dados y los muestra en pantalla
 ; DOM: Null
 ; REC: valorDado1 (int) valorDado2 (int)
 ; Tipo recursion: no aplica
 
 (define game-throw-dice
   (lambda ()
-    (display "Dado 1: ")
-    (display (random 1 6))
-    (newline)
-    (display "Dado 2: ")
-    (display (random 1 6))
-    (newline)))
-; comentario extra: esto es una solucion temporal, sirve por ahora
+    ((lambda (valor-dado1 valor-dado2) (cons valor-dado1 valor-dado2))
+     ((lambda (x) (display "Dado 1: ") (display x) (newline) x) (+ (random 6) 1))
+     ((lambda (x) (display "Dado 2: ") (display x) (newline) x) (+ (random 6) 1)))))
