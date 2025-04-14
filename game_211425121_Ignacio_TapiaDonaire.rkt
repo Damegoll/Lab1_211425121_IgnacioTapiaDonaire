@@ -1,7 +1,7 @@
 #lang racket
-(require "player_211425121_Ignacio_TapiaDonaire.rkt")
 (provide game)
 (provide game-add-player)
+(provide game-throw-dice)
 
 ; Descipción: Constructor que inicializa el juego CAPITALIA
 ; DOM: player (lista) board (board) dineroBanco (int) numeroDados (int) turnoActual (int) tasaImpuesto (int) maximoCasas (int) maximoHoteles (int) estadoJuego (string)
