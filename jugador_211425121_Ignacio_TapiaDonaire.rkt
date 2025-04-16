@@ -1,7 +1,7 @@
 #lang racket
-(require "property_211425121_Ignacio_TapiaDonaire.rkt")
-(require "game_211425121_Ignacio_TapiaDonaire.rkt")
-(provide player)
+(require "propiedad_211425121_Ignacio_TapiaDonaire.rkt")
+(require "juego_211425121_Ignacio_TapiaDonaire.rkt")
+(provide jugador)
 (provide get-player)
 (provide get-player-name)
 
@@ -10,10 +10,10 @@
 
 ; Descripción: Constructor de los jugadores en CAPITALIA
 ; DOM: id (int) nombre (string) personaje (string) dinero (int) propiedades (list) posicion (int) estaEnCarcel (boolean) totalCartasSalirCarcecl (int)
-; REC: player (lista)
+; REC: jugador (lista)
 ; Tipo recursion: no aplica
 
-(define (player id nombre personaje dinero propiedades posicion estaEnCarcel totalCartasSalirCarcel)
+(define (jugador id nombre personaje dinero propiedades posicion estaEnCarcel totalCartasSalirCarcel)
   (list id nombre personaje dinero propiedades posicion estaEnCarcel totalCartasSalirCarcel))
 
 ; -----------------------------------------------------------------
@@ -21,7 +21,7 @@
 ; get-player
 ; Descripcion: selector del "player" para obtener directamente su id
 ; DOM: jugador (lista)
-; REC: player (player)
+; REC: id (player)
 ; Tipo recursion: no aplica
 
 (define (get-player jugador)
@@ -32,7 +32,7 @@
 ; get-player-name
 ; Descripción: selector de "player" para obtener nombre del jugador
 ; DOM: jugadorNombre (lista)
-; REC: player (player)
+; REC: nombre (player)
 ; Tipo recursion: no aplica
 
 (define (get-player-name jugadorNombre)
@@ -53,8 +53,8 @@
 
 ; get-player-pos
 ; Descripción: Selector para obtener la posicion del jugador
-; DOM: jugadorPos(player)
-; REC: player(player)
+; DOM: jugadorPos (player)
+; REC: posicion (player)
 ; Tipo recursion: no aplica
 
 (define (get-player-pos jugadorPos)
@@ -64,8 +64,8 @@
 
 ; player-carcel
 ; Descripción: Selector para ver si el jugador esta en carcel
-; DOM: jugadorCarcel(player)
-; REC: player(player)
+; DOM: jugadorCarcel (player)
+; REC: estaEnCarcel (player)
 ; Tipo recursion: no aplica
 
 (define (player-carcel jugadorCarcel)
@@ -76,7 +76,7 @@
 ; player-update-move
 ; Descripción: Modificador para actualizar la posicion del jugador
 ; DOM: jugadorXD(player) nueva-pos(lista)
-; REC: player(player)
+; REC: posicion (player)
 ; Tipo recursion: no aplica
 
 (define (player-update-move jugadorXD nueva-pos)
@@ -94,7 +94,7 @@
 ; player-move
 ; Descripción: 
 ; DOM: jugador-mover(player) valor-dados(lista) 'pendiente'
-; REC: player(player)
+; REC: posicion (player)
 ; Tipo recursion: no aplica
 
 (define (player-move jugador-mover valor-dados)
@@ -118,9 +118,9 @@
 #|(define (player-add-property jugadorCasitalinda laCasitalinda)
   ())
 |#
-; Descripción: TDA de tipo "otro" que tira los dados, saca su suma y los muestra en pantalla
-; DOM: Null
-; REC: valorDado1 (int) valorDado2 (int)
+; Descripción: (NO APLICADO) Modificador que permite comprar propiedades en CAPITALIA
+; DOM: jugadorCompra (jugador) casaCompra (propiedad)
+; REC: propiedades (jugador)
 ; Tipo recursion: no aplica
 
 (define (player-comprar-casita jugadorCompra casaCompra)
@@ -131,6 +131,3 @@
       null))
 
 ; -----------------------------------------------------------------
-
-(define prop1 (property 1 "Paseo Mediterráneo" 60 2 "marrón" #f 0 #f #f))
-(define p1 (player 1 "Carlos" "Carro" 60 '() 0 #f 0))

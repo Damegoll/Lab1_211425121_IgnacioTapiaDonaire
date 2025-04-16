@@ -1,21 +1,21 @@
 #lang racket
-(provide game)
+(provide juego)
 (provide game-add-player)
 (provide game-throw-dice)
 
 ; Descipción: Constructor que inicializa el juego CAPITALIA
 ; DOM: player (lista) board (board) dineroBanco (int) numeroDados (int) turnoActual (int) tasaImpuesto (int) maximoCasas (int) maximoHoteles (int) estadoJuego (string)
-; REC: game (lista)
+; REC: juego (lista)
 ; Tipo recursion: No aplica
 
-(define (game game-player board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles estadoJuego)
+(define (juego game-player board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles estadoJuego)
   (list game-player board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles estadoJuego))
 
 ; -----------------------------------------------------------------
 
 ; Descripción: Modificador que agrega jugadores a CAPITALIA
-; DOM: juegoActual (game) jugadorNuevo (player)
-; REC: game (game)
+; DOM: juegoActual (juego) jugadorNuevo (jugador)
+; REC: game-player (juego)
 ; Tipo recursion: no aplica
 
 (define (game-add-player juegoActual jugadorNuevo)
@@ -24,8 +24,8 @@
 ; -----------------------------------------------------------------
 
 ; Descripción: Selector que obtiene el turno del jugador actual, implementacion no definitiva
-; DOM: jugadorTurno (game)
-; REC: game (game)
+; DOM: jugadorTurno (juego)
+; REC: turnoActual (juego)
 ; Tipo recursion: no aplica
 
 (define (game-get-player-turn jugadorTurno)

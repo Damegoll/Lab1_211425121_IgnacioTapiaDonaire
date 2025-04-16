@@ -1,10 +1,10 @@
 #lang racket
-(provide card)
+(provide carta)
 
 ; Descripción: Constructor para las cartas del juego CAPITALIA
 ; DOM: id (int) tipo (string) descripcion (string) accion (funcion)
-; REC: card (lista)
+; REC: carta (lista)
 ; Tipo recursión: No aplica
 
-(define (card id tipo descripcion accion)
+(define (carta id tipo descripcion accion)
   (list id tipo descripcion accion))
