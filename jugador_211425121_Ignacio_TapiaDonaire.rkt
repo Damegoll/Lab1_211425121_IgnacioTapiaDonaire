@@ -10,6 +10,7 @@
 (provide get-cartas-salir-carcel)
 (provide player-move)
 (provide jugador-comprar-propiedad)
+(provide jugador-calcular-renta)
 
 ; -----------------------------------------------------------------
 
@@ -164,3 +165,5 @@
 ; REC: int (monto de renta)
 ; Tipo recursion: no aplica
 
+(define (jugador-calcular-renta jugadorRenta)
+  (apply + (map get-propiedad-renta (get-jugador-propiedades jugadorRenta))))
