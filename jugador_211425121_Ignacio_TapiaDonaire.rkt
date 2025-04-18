@@ -1,6 +1,5 @@
 #lang racket
 (require "propiedad_211425121_Ignacio_TapiaDonaire.rkt")
-(require "juego_211425121_Ignacio_TapiaDonaire.rkt")
 (provide jugador)
 (provide get-jugador-id)
 (provide get-jugador-nombre)
@@ -9,6 +8,8 @@
 (provide get-jugador-pos)
 (provide get-jugador-carcel)
 (provide get-cartas-salir-carcel)
+(provide player-move)
+(provide jugador-comprar-propiedad)
 
 ; -----------------------------------------------------------------
 
@@ -99,13 +100,13 @@
 
 (define (player-update-move jugadorXD nueva-pos)
   (list
-   (list-ref jugadorXD 1)
-   (list-ref jugadorXD 2)
-   (list-ref jugadorXD 3)
-   (list-ref jugadorXD 4)
+   (get-jugador-id jugadorXD)
+   (get-jugador-nombre jugadorXD)
+   (get-jugador-dinero jugadorXD)
+   (get-jugador-propiedades jugadorXD)
    nueva-pos
-   (list-ref jugadorXD 6)
-   (list-ref jugadorXD 7)))
+   (get-jugador-carcel jugadorXD)
+   (get-cartas-salir-carcel jugadorXD)))
 
 ; -----------------------------------------------------------------
 
@@ -116,35 +117,50 @@
 
 (define (player-move jugador-mover valor-dados)
   (cond
-    ((eq? (get-jugador-carcel jugador-mover) #t) (display "Usted no puede moverse, se encuentra en la carcel")
-                                            jugador-mover)
+    ((eq? (get-jugador-carcel jugador-mover) #t) jugador-mover)
     (else
      (player-update-move jugador-mover
                          (+ (get-jugador-pos jugador-mover)
-                            (+ (car valor-dados)
-                               (cdr valor-dados)))))))
+                            (+ (car valor-dados) (cdr valor-dados)))))))
 
 ; -----------------------------------------------------------------
 
-; Descripcion: Modificador que agrega la propiedad al jugador respectivo
-; DOM:
-; REC:
-; Tipo recursion:
-
-#|(define (player-add-property jugadorCasitalinda laCasitalinda)
-  ())
-|#
-
-; Descripción: (NO APLICADO) Modificador que permite comprar propiedades en CAPITALIA
-; DOM: jugadorCompra (jugador) casaCompra (propiedad)
+; Descripción: Modificador que permite comprar propiedades en CAPITALIA
+; DOM: jugador (jugador) propiedad (propiedad)
 ; REC: propiedades (lista)
 ; Tipo recursion: no aplica
 
-(define (player-comprar-casita jugadorCompra casaCompra)
-  (if (eq? (get-propiedad-dueño casaCompra) #f)
-      (if (< (get-jugador-dinero jugadorCompra) (get-propiedad-precio casaCompra)) 
-          (display "no hay plata, erai") 
-          (- (get-jugador-dinero jugadorCompra) (get-propiedad-precio casaCompra))) 
-      null))
+(define (jugador-comprar-propiedad jugadorCompra propiedadCompra)
+  (cond
+    ((eq? (get-propiedad-dueño propiedadCompra) #t) (display "La propiedad ya tiene dueño"))
+    ((< (get-jugador-dinero jugadorCompra) (get-propiedad-precio propiedadCompra)) (display "No tienes el dinero suficiente para comprar"))
+    (else
+     (let* (
+            (cambiar-dinero (- (get-jugador-dinero jugadorCompra) (get-propiedad-precio propiedadCompra)))
+            (agregar-propiedad (cons propiedadCompra (get-jugador-propiedades jugadorCompra)))
+            (actualizar-jugador (jugador
+                                 (get-jugador-id jugadorCompra)
+                                 (get-jugador-nombre jugadorCompra)
+                                 cambiar-dinero
+                                 agregar-propiedad
+                                 (get-jugador-pos jugadorCompra)
+                                 (get-jugador-carcel jugadorCompra)
+                                 (get-cartas-salir-carcel jugadorCompra)))
+            (actualiza-propiedad (propiedad
+                                  (get-propiedad-id propiedadCompra)
+                                  (get-propiedad-nombre propiedadCompra)
+                                  (get-propiedad-precio propiedadCompra)
+                                  (get-propiedad-renta propiedadCompra)
+                                  actualizar-jugador
+                                  (get-propiedad-casas propiedadCompra)
+                                  (get-propiedad-eshotel propiedadCompra)
+                                  #f)))
+       (cons actualizar-jugador actualiza-propiedad)))))
 
 ; -----------------------------------------------------------------
+
+; Descripción: TDA otro que calcula la renta de una propiedad en base al numero de casas y hoteles
+; DOM: jugador (jugador)
+; REC: int (monto de renta)
+; Tipo recursion: no aplica
+

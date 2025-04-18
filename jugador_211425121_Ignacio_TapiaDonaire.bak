@@ -2,81 +2,99 @@
 (require "propiedad_211425121_Ignacio_TapiaDonaire.rkt")
 (require "juego_211425121_Ignacio_TapiaDonaire.rkt")
 (provide jugador)
-(provide get-player)
-(provide get-player-name)
+(provide get-jugador-id)
+(provide get-jugador-nombre)
+(provide get-jugador-dinero)
+(provide get-jugador-propiedades)
+(provide get-jugador-pos)
+(provide get-jugador-carcel)
+(provide get-cartas-salir-carcel)
 
-
-
+; -----------------------------------------------------------------
 
 ; Descripción: Constructor de los jugadores en CAPITALIA
 ; DOM: id (int) nombre (string) personaje (string) dinero (int) propiedades (list) posicion (int) estaEnCarcel (boolean) totalCartasSalirCarcecl (int)
 ; REC: jugador (lista)
 ; Tipo recursion: no aplica
 
-(define (jugador id nombre personaje dinero propiedades posicion estaEnCarcel totalCartasSalirCarcel)
-  (list id nombre personaje dinero propiedades posicion estaEnCarcel totalCartasSalirCarcel))
+(define (jugador id nombre dinero propiedades posicion estaEnCarcel totalCartasSalirCarcel)
+  (list id nombre dinero propiedades posicion estaEnCarcel totalCartasSalirCarcel))
 
 ; -----------------------------------------------------------------
 
-; get-player
 ; Descripcion: selector del "player" para obtener directamente su id
 ; DOM: jugador (lista)
-; REC: id (player)
+; REC: id (string)
 ; Tipo recursion: no aplica
 
-(define (get-player jugador)
+(define (get-jugador-id jugador)
   (car jugador))
 
 ; -----------------------------------------------------------------
 
-; get-player-name
 ; Descripción: selector de "player" para obtener nombre del jugador
 ; DOM: jugadorNombre (lista)
-; REC: nombre (player)
+; REC: nombre (string)
 ; Tipo recursion: no aplica
 
-(define (get-player-name jugadorNombre)
+(define (get-jugador-nombre jugadorNombre)
   (cadr jugadorNombre))
 
 ; -----------------------------------------------------------------
 
-; get-player-money
 ; Descripción: selector de "player" para obtener el dinero del jugador
 ; DOM: jugadorPlata (player)
-; REC: player (player)
+; REC: player (lista)
 ; Tipo recursion: no aplica
 
-(define (get-player-money jugadorPlata)
-  (cadddr jugadorPlata))
+(define (get-jugador-dinero jugadorPlata)
+  (caddr jugadorPlata))
 
 ; -----------------------------------------------------------------
 
-; get-player-pos
+; Descripción: Selector para obtener la lista de propiedades del jugador
+; DOM: jugadorPropPropias (jugador)
+; REC: propiedades (lista)
+; Tipo recursion: no aplica
+
+(define (get-jugador-propiedades jugadorPropPropias)
+  (cadddr jugadorPropPropias))
+
+; -----------------------------------------------------------------
+
 ; Descripción: Selector para obtener la posicion del jugador
 ; DOM: jugadorPos (player)
-; REC: posicion (player)
+; REC: posicion (int)
 ; Tipo recursion: no aplica
 
-(define (get-player-pos jugadorPos)
-  (list-ref jugadorPos 5))
+(define (get-jugador-pos jugadorPos)
+  (car (cddddr jugadorPos)))
 
 ; -----------------------------------------------------------------
 
-; player-carcel
 ; Descripción: Selector para ver si el jugador esta en carcel
 ; DOM: jugadorCarcel (player)
-; REC: estaEnCarcel (player)
+; REC: estaEnCarcel (boolean)
 ; Tipo recursion: no aplica
 
-(define (player-carcel jugadorCarcel)
-  (list-ref jugadorCarcel 6))
+(define (get-jugador-carcel jugadorCarcel)
+  (cadr (cddddr jugadorCarcel)))
 
 ; -----------------------------------------------------------------
 
-; player-update-move
+; Descripción: Selector para sacar la cantidad total de cartas para salir de la carcel
+; DOM: cartasSalirCarcel (jugador)
+; REC: totalCartasSalirCarcel (int)
+; Tipo recursion: no aplica
+
+(define (get-cartas-salir-carcel cartasSalirCarcel)
+  (caddr (cddddr cartasSalirCarcel)))
+
+; -----------------------------------------------------------------
+
 ; Descripción: Modificador para actualizar la posicion del jugador
 ; DOM: jugadorXD(player) nueva-pos(lista)
-; REC: posicion (player)
+; REC: posicion (int)
 ; Tipo recursion: no aplica
 
 (define (player-update-move jugadorXD nueva-pos)
@@ -91,25 +109,23 @@
 
 ; -----------------------------------------------------------------
 
-; player-move
 ; Descripción: 
 ; DOM: jugador-mover(player) valor-dados(lista) 'pendiente'
-; REC: posicion (player)
+; REC: posicion (int)
 ; Tipo recursion: no aplica
 
 (define (player-move jugador-mover valor-dados)
   (cond
-    ((eq? (player-carcel jugador-mover) #t) (display "Usted no puede moverse, se encuentra en la carcel")
+    ((eq? (get-jugador-carcel jugador-mover) #t) (display "Usted no puede moverse, se encuentra en la carcel")
                                             jugador-mover)
     (else
      (player-update-move jugador-mover
-                         (+ (get-player-pos jugador-mover)
+                         (+ (get-jugador-pos jugador-mover)
                             (+ (car valor-dados)
                                (cdr valor-dados)))))))
 
 ; -----------------------------------------------------------------
 
-; player-add-property
 ; Descripcion: Modificador que agrega la propiedad al jugador respectivo
 ; DOM:
 ; REC:
@@ -118,16 +134,17 @@
 #|(define (player-add-property jugadorCasitalinda laCasitalinda)
   ())
 |#
+
 ; Descripción: (NO APLICADO) Modificador que permite comprar propiedades en CAPITALIA
 ; DOM: jugadorCompra (jugador) casaCompra (propiedad)
-; REC: propiedades (jugador)
+; REC: propiedades (lista)
 ; Tipo recursion: no aplica
 
 (define (player-comprar-casita jugadorCompra casaCompra)
-  (if (eq? (get-property-dueño casaCompra) #f)
-      (if (< (get-player-money jugadorCompra) (get-property-price casaCompra)) 
+  (if (eq? (get-propiedad-dueño casaCompra) #f)
+      (if (< (get-jugador-dinero jugadorCompra) (get-propiedad-precio casaCompra)) 
           (display "no hay plata, erai") 
-          (- (get-player-money jugadorCompra) (get-property-price casaCompra))) 
+          (- (get-jugador-dinero jugadorCompra) (get-propiedad-precio casaCompra))) 
       null))
 
 ; -----------------------------------------------------------------

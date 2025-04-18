@@ -1,11 +1,14 @@
 #lang racket
+(require "jugador_211425121_Ignacio_TapiaDonaire.rkt")
 (provide juego)
 (provide game-add-player)
-(provide game-throw-dice)
+(provide lanzar-dado)
+(provide juego-obtener-jugador-actual)
 (provide get-jugadores)
 (provide get-juego-tablero)
 (provide get-dinero-banco)
 (provide get-total-dados)
+(provide get-turno-actual)
 (provide get-impuestos)
 (provide get-max-casas)
 (provide get-max-hotel)
@@ -31,13 +34,15 @@
 
 ; -----------------------------------------------------------------
 
-; Descripción: Selector que obtiene el turno del jugador actual, implementacion no definitiva
+; Descripción: Selector que obtiene el turno del jugador actual
 ; DOM: jugadorTurno (juego)
 ; REC: turnoActual (juego)
 ; Tipo recursion: no aplica
 
-(define (game-get-player-turn jugadorTurno)
-  (car jugadorTurno))
+(define (juego-obtener-jugador-actual juegoAhora)
+  (let* ((jugadores (get-jugadores juegoAhora))
+         (indice-turno (get-turno-actual juego)))
+    (list-ref jugadores indice-turno)))
 
 ; -----------------------------------------------------------------
 
@@ -78,6 +83,16 @@
 
 (define (get-total-dados totalDados)
   (cadddr totalDados))
+
+; -----------------------------------------------------------------
+
+; Descripción: Selector que saca el turno actual en juego
+; DOM: turnoJuego (juego)
+; REC: turnoActual (int)
+; Tipo recursion: no aplica
+
+(define (get-turno-actual turnoJuego)
+  (car (cddddr turnoJuego)))
 
 ; -----------------------------------------------------------------
 
@@ -126,8 +141,15 @@
 ; REC: valorDado1 (int) valorDado2 (int)
 ; Tipo recursion: no aplica
 
-(define game-throw-dice
-  (lambda ()
-    ((lambda (valor-dado1 valor-dado2) (cons valor-dado1 valor-dado2))
-     ((lambda (x) (display "Dado 1: ") (display x) (newline) x) (+ (random 6) 1))
-     ((lambda (x) (display "Dado 2: ") (display x) (newline) x) (+ (random 6) 1)))))
+(define (lanzar-dado seed)
+  ((lambda (ignorar-valor)
+     (cons
+      ((lambda (dado1)
+         (display "Dado 1: ") (display dado1) (newline)
+         dado1)
+       (+ (random 6) 1))
+      ((lambda (dado2)
+         (display "Dado 2: ") (display dado2) (newline)
+         dado2)
+       (+ (random 6) 1))))
+   (random-seed seed)))
