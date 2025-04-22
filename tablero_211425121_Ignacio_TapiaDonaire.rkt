@@ -1,8 +1,8 @@
 #lang racket
 (require "propiedad_211425121_Ignacio_TapiaDonaire.rkt")
 (provide tablero)
-(provide board-add-property)
-(provide get-tablero-propiedades)
+(provide tablero-agregar-propiedad)
+(provide tablero-obtener-propiedad)
 (provide get-carta-suerte)
 (provide get-carta-comunidad)
 (provide get-casilla-especial)
@@ -23,7 +23,7 @@
 ; REC: add-property (tablero)
 ; Tipo recursion: no aplica
 
-(define (board-add-property tableroActual prop pos)
+(define (tablero-agregar-propiedad tableroActual prop pos)
   (cons (append (car tableroActual) (list prop)) (cdr tableroActual)))
 
 ; -----------------------------------------------------------------
@@ -33,7 +33,7 @@
 ; REC: add-property (lista)
 ; Tipo recursion: no aplica
 
-(define (get-tablero-propiedades tableroPropiedades)
+(define (tablero-obtener-propiedad tableroPropiedades)
   (car tableroPropiedades))
 
 ; -----------------------------------------------------------------

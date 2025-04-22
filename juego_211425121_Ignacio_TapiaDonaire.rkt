@@ -1,8 +1,8 @@
 #lang racket
 (require "jugador_211425121_Ignacio_TapiaDonaire.rkt")
 (provide juego)
-(provide game-add-player)
-(provide lanzar-dado)
+(provide juego-agregar-jugador)
+(provide juego-lanzar-dados)
 (provide juego-obtener-jugador-actual)
 (provide get-jugadores)
 (provide get-juego-tablero)
@@ -29,7 +29,7 @@
 ; REC: game-player (juego)
 ; Tipo recursion: no aplica
 
-(define (game-add-player juegoActual jugadorNuevo)
+(define (juego-agregar-jugador juegoActual jugadorNuevo)
   (cons (append (car juegoActual) (list jugadorNuevo)) (cdr juegoActual)))
 
 ; -----------------------------------------------------------------
@@ -136,20 +136,38 @@
 
 ; -----------------------------------------------------------------
 
+; Descripción: Otro que simula la funcion random
+; DOM: null
+; REC: null
+; Tipo recursion: no aplica
+
+(define (myRandom X)
+  (modulo (+ (* 1103515245 X) 12345) 2147483648))
+
+; -----------------------------------------------------------------
+
+; Descripción: Otro que recibe la semilla y obtiene un resultado predeterminado
+; DOM: null
+; REC: myRandom (int)
+; Tipo recursion: No aplica
+
+(define (getDadoRandom seed)
+  (+ 1 (modulo (myRandom seed) 6)))
+
+; -----------------------------------------------------------------
+
 ; Descripción: TDA de tipo "otro" que tira los dados y los muestra en pantalla
-; DOM: Null
+; DOM: seed-dado1 (int) seed-dado2 (int)
 ; REC: valorDado1 (int) valorDado2 (int)
 ; Tipo recursion: no aplica
 
-(define (lanzar-dado seed)
-  ((lambda (ignorar-valor)
-     (cons
-      ((lambda (dado1)
-         (display "Dado 1: ") (display dado1) (newline)
-         dado1)
-       (+ (random 6) 1))
-      ((lambda (dado2)
-         (display "Dado 2: ") (display dado2) (newline)
-         dado2)
-       (+ (random 6) 1))))
-   (random-seed seed)))
+(define (juego-lanzar-dados seed-dado1 seed-dado2)
+  (cons
+   ((lambda (dado1)
+      (display "Dado 1: ") (display dado1) (newline)
+      dado1)
+    (getDadoRandom seed-dado1))
+   ((lambda (dado2)
+      (display "Dado 2: ") (display dado2) (newline)
+      dado2)
+    (getDadoRandom seed-dado2))))

@@ -5,10 +5,10 @@
 (provide get-jugador-nombre)
 (provide get-jugador-dinero)
 (provide get-jugador-propiedades)
-(provide get-jugador-pos)
+(provide jugador-posicion)
 (provide get-jugador-carcel)
 (provide get-cartas-salir-carcel)
-(provide player-move)
+(provide jugador-mover)
 (provide jugador-comprar-propiedad)
 (provide jugador-calcular-renta)
 
@@ -69,7 +69,7 @@
 ; REC: posicion (int)
 ; Tipo recursion: no aplica
 
-(define (get-jugador-pos jugadorPos)
+(define (jugador-posicion jugadorPos)
   (car (cddddr jugadorPos)))
 
 ; -----------------------------------------------------------------
@@ -116,12 +116,12 @@
 ; REC: posicion (int)
 ; Tipo recursion: no aplica
 
-(define (player-move jugador-mover valor-dados)
+(define (jugador-mover jugador-movimiento valor-dados)
   (cond
-    ((eq? (get-jugador-carcel jugador-mover) #t) jugador-mover)
+    ((eq? (get-jugador-carcel jugador-movimiento) #t) jugador-movimiento)
     (else
-     (player-update-move jugador-mover
-                         (+ (get-jugador-pos jugador-mover)
+     (player-update-move jugador-movimiento
+                         (+ (jugador-posicion jugador-movimiento)
                             (+ (car valor-dados) (cdr valor-dados)))))))
 
 ; -----------------------------------------------------------------
@@ -144,7 +144,7 @@
                                  (get-jugador-nombre jugadorCompra)
                                  cambiar-dinero
                                  agregar-propiedad
-                                 (get-jugador-pos jugadorCompra)
+                                 (jugador-posicion jugadorCompra)
                                  (get-jugador-carcel jugadorCompra)
                                  (get-cartas-salir-carcel jugadorCompra)))
             (actualiza-propiedad (propiedad
