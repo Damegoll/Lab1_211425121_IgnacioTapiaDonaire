@@ -170,3 +170,15 @@
       (display "Dado 2: ") (display dado2) (newline)
       dado2)
     (getDadoRandom seed-dado2))))
+
+; -----------------------------------------------------------------
+
+; Descripción: Modificador que extrae una carta aleatoria del mazo especificado
+; DOM: juegoCarta (juego) mazoSacar (string)
+; REC: carta (tipo)
+; Tipo recursion: no aplica
+
+(define (juego-extraer-carta juegoCarta mazoSacar)
+  (list-ref
+   (filter (lambda (cartas) (string=? (list-ref cartas 1) (get-carta-tipo mazoSacar))) mazoSacar)
+   (random (length (filter (lambda (cartas) (string=? (list-ref cartas 1) (get-carta-tipo mazoSacar))) mazoSacar)))))
