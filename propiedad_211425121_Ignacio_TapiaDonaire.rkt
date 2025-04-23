@@ -141,3 +141,25 @@
       (get-propiedad-eshipotecada propHotel)))))
 
 ; ------------------------------------------------------------------
+
+; Descripción: Modificador que cambia el estado de la propiedad a hipotecada
+; DOM: propHipoteca (propiedad)
+; REC: propiedad(estaHipotecada)
+; Tipo recursion: no aplica
+
+(define (propiedad-hipotecar propHipoteca)
+  (cond
+    ((eq? (get-propiedad-eshipotecada propHipoteca) #t)
+     display "La propiedad ya fue hipotecada")
+    (else
+     (propiedad
+      (get-propiedad-id propHipoteca)
+      (get-propiedad-nombre propHipoteca)
+      (get-propiedad-precio propHipoteca)
+      (get-propiedad-renta propHipoteca)
+      (get-propiedad-dueño propHipoteca)
+      (get-propiedad-casas propHipoteca)
+      (get-propiedad-eshotel propHipoteca)
+      #t))))
+
+; ------------------------------------------------------------------
