@@ -1,11 +1,14 @@
 #lang racket
+(require "jugador_211425121_Ignacio_TapiaDonaire.rkt")
 (provide juego)
-(provide game-add-player)
-(provide game-throw-dice)
+(provide juego-agregar-jugador)
+(provide juego-lanzar-dados)
+(provide juego-obtener-jugador-actual)
 (provide get-jugadores)
 (provide get-juego-tablero)
 (provide get-dinero-banco)
 (provide get-total-dados)
+(provide get-turno-actual)
 (provide get-impuestos)
 (provide get-max-casas)
 (provide get-max-hotel)
@@ -26,18 +29,20 @@
 ; REC: game-player (juego)
 ; Tipo recursion: no aplica
 
-(define (game-add-player juegoActual jugadorNuevo)
+(define (juego-agregar-jugador juegoActual jugadorNuevo)
   (cons (append (car juegoActual) (list jugadorNuevo)) (cdr juegoActual)))
 
 ; -----------------------------------------------------------------
 
-; Descripción: Selector que obtiene el turno del jugador actual, implementacion no definitiva
+; Descripción: Selector que obtiene el turno del jugador actual
 ; DOM: jugadorTurno (juego)
 ; REC: turnoActual (juego)
 ; Tipo recursion: no aplica
 
-(define (game-get-player-turn jugadorTurno)
-  (car jugadorTurno))
+(define (juego-obtener-jugador-actual juegoAhora)
+  (let* ((jugadores (get-jugadores juegoAhora))
+         (indice-turno (get-turno-actual juego)))
+    (list-ref jugadores indice-turno)))
 
 ; -----------------------------------------------------------------
 
@@ -81,6 +86,16 @@
 
 ; -----------------------------------------------------------------
 
+; Descripción: Selector que saca el turno actual en juego
+; DOM: turnoJuego (juego)
+; REC: turnoActual (int)
+; Tipo recursion: no aplica
+
+(define (get-turno-actual turnoJuego)
+  (car (cddddr turnoJuego)))
+
+; -----------------------------------------------------------------
+
 ; Descripción: Selector que saca la tasa de impuesto del juego
 ; DOM: ricosImpuestos (juego)
 ; REC: tasaImpuesto (int)
@@ -121,13 +136,38 @@
 
 ; -----------------------------------------------------------------
 
+; Descripción: Otro que simula la funcion random
+; DOM: null
+; REC: null
+; Tipo recursion: no aplica
+
+(define (myRandom X)
+  (modulo (+ (* 1103515245 X) 12345) 2147483648))
+
+; -----------------------------------------------------------------
+
+; Descripción: Otro que recibe la semilla y obtiene un resultado predeterminado
+; DOM: null
+; REC: myRandom (int)
+; Tipo recursion: No aplica
+
+(define (getDadoRandom seed)
+  (+ 1 (modulo (myRandom seed) 6)))
+
+; -----------------------------------------------------------------
+
 ; Descripción: TDA de tipo "otro" que tira los dados y los muestra en pantalla
-; DOM: Null
+; DOM: seed-dado1 (int) seed-dado2 (int)
 ; REC: valorDado1 (int) valorDado2 (int)
 ; Tipo recursion: no aplica
 
-(define game-throw-dice
-  (lambda ()
-    ((lambda (valor-dado1 valor-dado2) (cons valor-dado1 valor-dado2))
-     ((lambda (x) (display "Dado 1: ") (display x) (newline) x) (+ (random 6) 1))
-     ((lambda (x) (display "Dado 2: ") (display x) (newline) x) (+ (random 6) 1)))))
+(define (juego-lanzar-dados seed-dado1 seed-dado2)
+  (cons
+   ((lambda (dado1)
+      (display "Dado 1: ") (display dado1) (newline)
+      dado1)
+    (getDadoRandom seed-dado1))
+   ((lambda (dado2)
+      (display "Dado 2: ") (display dado2) (newline)
+      dado2)
+    (getDadoRandom seed-dado2))))

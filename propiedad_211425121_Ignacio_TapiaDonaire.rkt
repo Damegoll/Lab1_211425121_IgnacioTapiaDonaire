@@ -105,3 +105,17 @@
 
 
 ; ------------------------------------------------------------------
+
+; Descripción: Modificador que agrega 1 casa a la propiedad
+; DOM: propCasa (propiedad) juegoCasa (juego)
+; REC: propiedad (casas)
+; Tipo recursion: No aplica
+
+(define (propiedad-construir-casa propCasa juegoCasa)
+  (cond
+    ((> (+ (get-propiedad-casas propCasa) 1) (get-max-casas juegoCasa)) 
+     (display "No se pueden agregar más casas"))
+    (else
+     (+ (get-propiedad-casas propCasa) 1))))
+
+; ------------------------------------------------------------------
