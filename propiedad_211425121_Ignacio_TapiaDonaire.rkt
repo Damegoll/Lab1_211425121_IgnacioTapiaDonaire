@@ -103,7 +103,6 @@
 ; cambiar a que la propiedad ahora tiene dueño
 ; va a ser una paja porque tengo que dupear todo el juego y decirle "oye ahora tiene casa"
 
-
 ; ------------------------------------------------------------------
 
 ; Descripción: Modificador que agrega 1 casa a la propiedad
@@ -117,5 +116,28 @@
      (display "No se pueden agregar más casas"))
     (else
      (+ (get-propiedad-casas propCasa) 1))))
+
+; ------------------------------------------------------------------
+
+; Descripción: Modificador que cambia el estado de hotel a #t y cambia casas a 0
+; DOM: propHotel (propiedad) juegoHotel (juego)
+; REC: propiedad (esHotel)
+; Tipo recursion: No aplica
+
+(define (propiedad-construir-hotel propHotel juegoHotel)
+  (cond
+    ((or (get-propiedad-eshotel propHotel)
+         (< (get-propiedad-casas propHotel) (get-max-casas juegoHotel)))
+     propHotel)
+    (else
+     (propiedad
+      (get-propiedad-id propHotel)
+      (get-propiedad-nombre propHotel)
+      (get-propiedad-precio propHotel)
+      (get-propiedad-renta propHotel)
+      (get-propiedad-dueño propHotel)
+      0
+      #t
+      (get-propiedad-eshipotecada propHotel)))))
 
 ; ------------------------------------------------------------------
