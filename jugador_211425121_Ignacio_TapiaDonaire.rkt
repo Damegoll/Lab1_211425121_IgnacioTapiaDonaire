@@ -167,3 +167,18 @@
 
 (define (jugador-calcular-renta jugadorRenta)
   (apply + (map get-propiedad-renta (get-jugador-propiedades jugadorRenta))))
+
+; -----------------------------------------------------------------
+
+; Descripción: TDA otro que verifica si el jugador se encuentra en bancarrota
+; DOM: jugadorBroke (jugador)
+; REC: boolean (true/false)
+; Tipo recursion: no aplica
+
+(define (jugador-esta-en-bancarrota jugadorBroke)
+  (cond
+    ((< (get-jugador-dinero jugadorBroke) 0) #t)
+    (else
+     #f)))
+
+; -----------------------------------------------------------------

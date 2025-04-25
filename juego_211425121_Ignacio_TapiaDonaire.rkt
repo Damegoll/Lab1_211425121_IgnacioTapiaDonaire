@@ -1,4 +1,5 @@
 #lang racket
+(require "carta_211425121_Ignacio_TapiaDonaire.rkt")
 (provide juego)
 (provide juego-agregar-jugador)
 (provide juego-lanzar-dados)

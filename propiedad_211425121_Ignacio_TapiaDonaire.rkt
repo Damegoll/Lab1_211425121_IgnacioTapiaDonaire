@@ -1,4 +1,5 @@
 #lang racket
+(require "juego_211425121_Ignacio_TapiaDonaire.rkt")
 (provide propiedad)
 (provide get-propiedad-id)
 (provide get-propiedad-nombre)
