@@ -100,7 +100,7 @@
 ; Tipo recursion: no aplica
 
 (define (player-update-move jugadorXD nueva-pos)
-  (list
+  (jugador
    (get-jugador-id jugadorXD)
    (get-jugador-nombre jugadorXD)
    (get-jugador-dinero jugadorXD)
@@ -111,7 +111,7 @@
 
 ; -----------------------------------------------------------------
 
-; Descripción: 
+; Descripción: Modificador que cambia la posicion del jugador dado el valor de los dados
 ; DOM: jugador-mover(player) valor-dados(lista) 'pendiente'
 ; REC: posicion (int)
 ; Tipo recursion: no aplica
@@ -136,27 +136,23 @@
     ((eq? (get-propiedad-dueño propiedadCompra) #t) (display "La propiedad ya tiene dueño"))
     ((< (get-jugador-dinero jugadorCompra) (get-propiedad-precio propiedadCompra)) (display "No tienes el dinero suficiente para comprar"))
     (else
-     (let* (
-            (cambiar-dinero (- (get-jugador-dinero jugadorCompra) (get-propiedad-precio propiedadCompra)))
-            (agregar-propiedad (cons propiedadCompra (get-jugador-propiedades jugadorCompra)))
-            (actualizar-jugador (jugador
-                                 (get-jugador-id jugadorCompra)
-                                 (get-jugador-nombre jugadorCompra)
-                                 cambiar-dinero
-                                 agregar-propiedad
-                                 (jugador-posicion jugadorCompra)
-                                 (get-jugador-carcel jugadorCompra)
-                                 (get-cartas-salir-carcel jugadorCompra)))
-            (actualiza-propiedad (propiedad
-                                  (get-propiedad-id propiedadCompra)
-                                  (get-propiedad-nombre propiedadCompra)
-                                  (get-propiedad-precio propiedadCompra)
-                                  (get-propiedad-renta propiedadCompra)
-                                  actualizar-jugador
-                                  (get-propiedad-casas propiedadCompra)
-                                  (get-propiedad-eshotel propiedadCompra)
-                                  #f)))
-       (cons actualizar-jugador actualiza-propiedad)))))
+     (propiedad
+      (get-propiedad-id propiedadCompra)
+      (get-propiedad-nombre propiedadCompra)
+      (get-propiedad-precio propiedadCompra)
+      (get-propiedad-renta propiedadCompra)
+      (get-jugador-nombre jugadorCompra)
+      (get-propiedad-casas propiedadCompra)
+      (get-propiedad-eshotel propiedadCompra)
+      (get-propiedad-eshipotecada propiedadCompra))
+     (jugador
+      (get-jugador-id jugadorCompra)
+      (get-jugador-nombre jugadorCompra)
+      (- (get-jugador-dinero jugadorCompra) (get-propiedad-precio propiedadCompra))
+      propiedadCompra
+      (jugador-posicion jugadorCompra)
+      (get-jugador-carcel jugadorCompra)
+      (get-cartas-salir-carcel jugadorCompra)))))
 
 ; -----------------------------------------------------------------
 
