@@ -100,9 +100,21 @@
 
 ; -----------------------------------------------------------------
 
-; cambiar-prop-dueño
-; cambiar a que la propiedad ahora tiene dueño
-; va a ser una paja porque tengo que dupear todo el juego y decirle "oye ahora tiene casa"
+; Descripción: Modificador que permite actualizar la renta de la propiedad
+; DOM: propiedadRentaNueva (propiedad)
+; REC: int (renta)
+; Tipo recursion: no aplica
+
+(define (propiedad-actualizar-renta propiedadRentaNueva nuevaRenta)
+  (propiedad
+   (get-propiedad-id propiedadRentaNueva)
+   (get-propiedad-nombre propiedadRentaNueva)
+   (get-propiedad-precio propiedadRentaNueva)
+   nuevaRenta
+   (get-propiedad-dueño propiedadRentaNueva)
+   (get-propiedad-casas propiedadRentaNueva)
+   (get-propiedad-eshotel propiedadRentaNueva)
+   (get-propiedad-eshipotecada propiedadRentaNueva)))
 
 ; ------------------------------------------------------------------
 
@@ -162,5 +174,28 @@
       (get-propiedad-casas propHipoteca)
       (get-propiedad-eshotel propHipoteca)
       #t))))
+
+; ------------------------------------------------------------------
+
+; Descripción: TDA Otro para calcular la renta de una propiedad
+; DOM: propiedadRenta (propiedad=
+; REC: int (renta)
+; Tipo recursion: no aplica
+
+(define (propiedad-calcular-renta propiedadRenta)
+  (cond
+    ((eq? (get-propiedad-eshipotecada propiedadRenta) #t)
+     (propiedad-actualizar-renta propiedadRenta 0))
+    ((eq? (get-propiedad-eshotel propiedadRenta) #t)
+     (propiedad-actualizar-renta propiedadRenta
+                                 (* 2 (+ (get-propiedad-renta propiedadRenta)
+                                         (* 0.8 (get-propiedad-renta propiedadRenta))))))
+    ((> (get-propiedad-casas propiedadRenta) 0)
+     (propiedad-actualizar-renta propiedadRenta
+                                 (* (get-propiedad-renta propiedadRenta)
+                                    (+ 1 (* 0.2 (get-propiedad-casas propiedadRenta))))))
+    (else
+     (propiedad-actualizar-renta propiedadRenta
+                                 (get-propiedad-renta propiedadRenta)))))
 
 ; ------------------------------------------------------------------
