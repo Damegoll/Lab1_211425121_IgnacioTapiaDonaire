@@ -183,3 +183,13 @@
   (list-ref
    (filter (lambda (cartas) (string=? (list-ref cartas 1) (get-carta-tipo mazoSacar))) mazoSacar)
    (random (length (filter (lambda (cartas) (string=? (list-ref cartas 1) (get-carta-tipo mazoSacar))) mazoSacar)))))
+
+; -----------------------------------------------------------------
+
+; Descripción: Modificador que permite jugar al juego
+; DOM: jugarAhora (juego) dadosJuego (pair)
+; REC: juego(juego)
+; Tipo recursion: no aplica (por ahora)
+
+(define (juego-jugar-turno juegoAhora dadosJuego)
+  (juegoAhora (juego-lanzar-dados ((car dadosJuego) (cdr dadosJuego)))))

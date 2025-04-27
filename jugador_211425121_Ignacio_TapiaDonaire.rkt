@@ -99,7 +99,7 @@
 ; REC: posicion (int)
 ; Tipo recursion: no aplica
 
-(define (player-update-move jugadorXD nueva-pos)
+(define (jugador-actualizar-movimiento jugadorXD nueva-pos)
   (jugador
    (get-jugador-id jugadorXD)
    (get-jugador-nombre jugadorXD)
@@ -120,7 +120,7 @@
   (cond
     ((eq? (get-jugador-carcel jugador-movimiento) #t) jugador-movimiento)
     (else
-     (player-update-move jugador-movimiento
+     (jugador-actualizar-movimiento jugador-movimiento
                          (+ (jugador-posicion jugador-movimiento)
                             (+ (car valor-dados) (cdr valor-dados)))))))
 
