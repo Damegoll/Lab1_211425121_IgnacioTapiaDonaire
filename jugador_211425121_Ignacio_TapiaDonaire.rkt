@@ -11,7 +11,8 @@
          jugador-posicion
          jugador-mover
          jugador-comprar-propiedad
-         jugador-calcular-renta)
+         jugador-calcular-renta
+         jugador-esta-en-bancarrota)
 
 ; -----------------------------------------------------------------
 

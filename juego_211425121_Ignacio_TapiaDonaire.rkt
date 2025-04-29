@@ -4,11 +4,11 @@
          juego-agregar-jugador
          juego-lanzar-dados
          juego-obtener-jugador-actual
+         juego-extraer-carta
          get-jugadores
          get-juego-tablero
          get-dinero-banco
          get-total-dados
-         get-turno-actual
          get-impuestos
          get-max-casas
          get-max-hotel
@@ -40,10 +40,8 @@
 ; REC: turnoActual (juego)
 ; Tipo recursion: no aplica
 
-(define (juego-obtener-jugador-actual juegoAhora)
-  (let* ((jugadores (get-jugadores juegoAhora))
-         (indice-turno (get-turno-actual juego)))
-    (list-ref jugadores indice-turno)))
+(define (juego-obtener-jugador-actual juegoNow)
+  (car (car juegoNow)))
 
 ; -----------------------------------------------------------------
 
@@ -84,16 +82,6 @@
 
 (define (get-total-dados totalDados)
   (cadddr totalDados))
-
-; -----------------------------------------------------------------
-
-; Descripción: Selector que saca el turno actual en juego
-; DOM: turnoJuego (juego)
-; REC: turnoActual (int)
-; Tipo recursion: no aplica
-
-(define (get-turno-actual turnoJuego)
-  (car (cddddr turnoJuego)))
 
 ; -----------------------------------------------------------------
 
@@ -165,15 +153,21 @@
 
 ; -----------------------------------------------------------------
 
-; Descripción: Modificador que extrae una carta aleatoria del mazo especificado
+; Descripción: Modificador que extrae una carta no aleatoria del mazo especificado
 ; DOM: juegoCarta (juego) mazoSacar (string)
 ; REC: carta (tipo)
 ; Tipo recursion: no aplica
 
-(define (juego-extraer-carta juegoCarta mazoSacar)
-  (list-ref
-   (filter (lambda (cartas) (string=? (list-ref cartas 1) (get-carta-tipo mazoSacar))) mazoSacar)
-   (random (length (filter (lambda (cartas) (string=? (list-ref cartas 1) (get-carta-tipo mazoSacar))) mazoSacar)))))
+(define juego-extraer-carta
+  (lambda (juego tipo)
+    (cond
+      ((string=? tipo "suerte")
+       (list-ref (cadr (cadr juego)) (modulo (myRandom (getDadoRandom 2)) (length (cadr (cadr juego))))))
+      ((string=? tipo "comunidad")
+       (list-ref (caddr (cadr juego)) (modulo (myRandom (getDadoRandom 3)) (length (caddr (cadr juego))))))
+      (else
+       (display "de alguna manera escogiste algo que no existe, eres un genio")))))
+; en caso de querer hacerla random verdaderamente debemos de quitar el myRandom y getDadoRandom y reemplazarlos con random a secas
 
 ; -----------------------------------------------------------------
 

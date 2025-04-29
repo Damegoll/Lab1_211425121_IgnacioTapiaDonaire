@@ -20,11 +20,11 @@
          juego-agregar-jugador
          juego-lanzar-dados
          juego-obtener-jugador-actual
+         juego-extraer-carta
          get-jugadores
          get-juego-tablero
          get-dinero-banco
          get-total-dados
-         get-turno-actual
          get-impuestos
          get-max-casas
          get-max-hotel
@@ -43,7 +43,8 @@
          jugador-posicion
          jugador-mover
          jugador-comprar-propiedad
-         jugador-calcular-renta)
+         jugador-calcular-renta
+         jugador-esta-en-bancarrota)
 
 ; Provides de propiedad
 
@@ -55,7 +56,12 @@
          get-propiedad-dueño
          get-propiedad-casas
          get-propiedad-eshotel
-         get-propiedad-eshipotecada)
+         get-propiedad-eshipotecada
+         propiedad-actualizar-renta
+         propiedad-construir-casa
+         propiedad-construir-hotel
+         propiedad-hipotecar
+         propiedad-calcular-renta)
 
 ; Provides de tablero
 
@@ -183,6 +189,8 @@
 ;; Ambos jugadores comienzan en posición 0
 ; Turno 1: Carlos
 (display "TURNO 1: Carlos\n")
+
+
 #|;; Ambos jugadores comienzan en posición 0
 ; Turno 1: Carlos
 (display "TURNO 1: Carlos\n")
@@ -286,3 +294,6 @@ g7 ;; esto imprime g7
 (jugador-esta-en-bancarrota (get-jugador g7))
 ;; Fin script ejecución
 |#
+
+; verificacion de funciones
+

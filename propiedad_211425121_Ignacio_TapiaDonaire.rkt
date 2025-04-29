@@ -8,7 +8,12 @@
          get-propiedad-dueño
          get-propiedad-casas
          get-propiedad-eshotel
-         get-propiedad-eshipotecada)
+         get-propiedad-eshipotecada
+         propiedad-actualizar-renta
+         propiedad-construir-casa
+         propiedad-construir-hotel
+         propiedad-hipotecar
+         propiedad-calcular-renta)
 
 ; Descripción: Constructor para crear las propiedades dentro de CAPITALIA
 ; DOM: id (int) nombre (string) precio (int) renta (int) color (string) dueño (jugador/null/boolean?) casas (int) esHotel (boolean) estaHipotecada (boolean)
@@ -126,9 +131,26 @@
 (define (propiedad-construir-casa propCasa juegoCasa)
   (cond
     ((> (+ (get-propiedad-casas propCasa) 1) (get-max-casas juegoCasa)) 
-     (display "No se pueden agregar más casas"))
+     (display "No se pueden agregar más casas")
+     (propiedad
+      (get-propiedad-id propCasa)
+      (get-propiedad-nombre propCasa)
+      (get-propiedad-precio propCasa)
+      (get-propiedad-renta propCasa)
+      (get-propiedad-dueño propCasa)
+      (get-propiedad-casas propCasa)
+      (get-propiedad-eshotel propCasa)
+      (get-propiedad-eshipotecada propCasa)))
     (else
-     (+ (get-propiedad-casas propCasa) 1))))
+     (propiedad
+      (get-propiedad-id propCasa)
+      (get-propiedad-nombre propCasa)
+      (get-propiedad-precio propCasa)
+      (get-propiedad-renta propCasa)
+      (get-propiedad-dueño propCasa)
+      (+ (get-propiedad-casas propCasa) 1)
+      (get-propiedad-eshotel propCasa)
+      (get-propiedad-eshipotecada propCasa)))))
 
 ; ------------------------------------------------------------------
 
@@ -178,7 +200,7 @@
 ; ------------------------------------------------------------------
 
 ; Descripción: TDA Otro para calcular la renta de una propiedad
-; DOM: propiedadRenta (propiedad=
+; DOM: propiedadRenta (propiedad)
 ; REC: int (renta)
 ; Tipo recursion: no aplica
 
@@ -188,8 +210,10 @@
      (propiedad-actualizar-renta propiedadRenta 0))
     ((eq? (get-propiedad-eshotel propiedadRenta) #t)
      (propiedad-actualizar-renta propiedadRenta
-                                 (* 2 (+ (get-propiedad-renta propiedadRenta)
-                                         (* 0.8 (get-propiedad-renta propiedadRenta))))))
+                                 (+(* 2 (+ (get-propiedad-renta propiedadRenta)
+                                         (* 0.8 (get-propiedad-renta propiedadRenta))))
+                                   (* (get-propiedad-renta propiedadRenta)
+                                      (* 0.2 (get-propiedad-casas propiedadRenta))))))
     ((> (get-propiedad-casas propiedadRenta) 0)
      (propiedad-actualizar-renta propiedadRenta
                                  (* (get-propiedad-renta propiedadRenta)
