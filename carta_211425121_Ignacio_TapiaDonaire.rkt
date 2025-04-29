@@ -1,9 +1,9 @@
 #lang racket
-(provide carta)
-(provide get-carta-id)
-(provide get-carta-tipo)
-(provide get-carta-descripcion)
-(provide get-carta-accion)
+(provide carta
+         get-carta-id
+         get-carta-tipo
+         get-carta-descripcion
+         get-carta-accion)
 
 ; Descripción: Constructor para las cartas del juego CAPITALIA
 ; DOM: id (int) tipo (string) descripcion (string) accion (funcion)

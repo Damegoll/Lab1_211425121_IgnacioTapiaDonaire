@@ -1,26 +1,27 @@
 #lang racket
 (require "carta_211425121_Ignacio_TapiaDonaire.rkt")
-(provide juego)
-(provide juego-agregar-jugador)
-(provide juego-lanzar-dados)
-(provide juego-obtener-jugador-actual)
-(provide get-jugadores)
-(provide get-juego-tablero)
-(provide get-dinero-banco)
-(provide get-total-dados)
-(provide get-turno-actual)
-(provide get-impuestos)
-(provide get-max-casas)
-(provide get-max-hotel)
-(provide get-estado)
+(provide juego
+         juego-agregar-jugador
+         juego-lanzar-dados
+         juego-obtener-jugador-actual
+         get-jugadores
+         get-juego-tablero
+         get-dinero-banco
+         get-total-dados
+         get-turno-actual
+         get-impuestos
+         get-max-casas
+         get-max-hotel
+         getDadoRandom
+         myRandom)
 
 ; Descipción: Constructor que inicializa el juego CAPITALIA
 ; DOM: player (lista) board (board) dineroBanco (int) numeroDados (int) turnoActual (int) tasaImpuesto (int) maximoCasas (int) maximoHoteles (int) estadoJuego (string)
 ; REC: juego (lista)
 ; Tipo recursion: No aplica
 
-(define (juego game-player board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles estadoJuego)
-  (list game-player board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles estadoJuego))
+(define (juego game-player board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles )
+  (list game-player board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles))
 
 ; -----------------------------------------------------------------
 
@@ -126,16 +127,6 @@
 
 ; -----------------------------------------------------------------
 
-; Descripción: Selector que saca el estado actual del juego
-; DOM: estadoJuegito (juego)
-; REC: estadoJuego (string)
-; Tipo recursion: no aplica
-
-(define (get-estado estadoJuegito)
-  (cadr (cdddr (cddddr estadoJuegito))))
-
-; -----------------------------------------------------------------
-
 ; Descripción: Otro que simula la funcion random
 ; DOM: null
 ; REC: null
@@ -191,5 +182,7 @@
 ; REC: juego(juego)
 ; Tipo recursion: no aplica (por ahora)
 
-(define (juego-jugar-turno juegoAhora dadosJuego)
-  (juegoAhora (juego-lanzar-dados ((car dadosJuego) (cdr dadosJuego)))))
+#|(define (juego-jugar-turno juegoActual valorDados comprarPropiedad_or_construirCasa construirHotel pagarMultaSalirCarcel usarTarjetaSalirCarcel)
+  (cond
+    ((eq? comprarPropiedad_or_construirCasa #t)
+     ())))|#

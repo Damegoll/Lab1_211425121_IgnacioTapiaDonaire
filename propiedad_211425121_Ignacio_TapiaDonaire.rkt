@@ -1,14 +1,14 @@
 #lang racket
 (require "juego_211425121_Ignacio_TapiaDonaire.rkt")
-(provide propiedad)
-(provide get-propiedad-id)
-(provide get-propiedad-nombre)
-(provide get-propiedad-precio)
-(provide get-propiedad-renta)
-(provide get-propiedad-dueño)
-(provide get-propiedad-casas)
-(provide get-propiedad-eshotel)
-(provide get-propiedad-eshipotecada)
+(provide propiedad
+         get-propiedad-id
+         get-propiedad-nombre
+         get-propiedad-precio
+         get-propiedad-renta
+         get-propiedad-dueño
+         get-propiedad-casas
+         get-propiedad-eshotel
+         get-propiedad-eshipotecada)
 
 ; Descripción: Constructor para crear las propiedades dentro de CAPITALIA
 ; DOM: id (int) nombre (string) precio (int) renta (int) color (string) dueño (jugador/null/boolean?) casas (int) esHotel (boolean) estaHipotecada (boolean)

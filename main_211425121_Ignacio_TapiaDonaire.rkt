@@ -1,31 +1,73 @@
 #lang racket
-(require "main_211425121_Ignacio_TapiaDonaire.rkt")
 
-;; Script de ejecución
+(require "carta_211425121_Ignacio_TapiaDonaire.rkt")
+(require "juego_211425121_Ignacio_TapiaDonaire.rkt")
+(require "jugador_211425121_Ignacio_TapiaDonaire.rkt")
+(require "propiedad_211425121_Ignacio_TapiaDonaire.rkt")
+(require "tablero_211425121_Ignacio_TapiaDonaire.rkt")
 
-;; En primer lugar deben importar el archivo main_RUT_NOMBRE_APELLIDOS.rkt el cuál contiene la llamada a todos los requerimientos solicitados como RF.
+; Provides de carta
 
-;; Cada script debe considerar la simulación de juego de :
-;; Script 1: 
-;;      2 jugadores (usted los define, junto con su id correspondiente)
-;;  Script 2:
-;;     3 jugadores (usted los define, junto con su id correspondiente)
-;; Ambos scripts deben considerar como mínimo:
-;; - 15 propiedades (usted las define)
-;; - 10 cartas suerte (usted las define)
-;; - 10 cartas comunidad  (usted las define).
-;; - Cada jugador como mínimo debe tener 3 jugadas antes de que el juego termine o que exista un jugador en bancarrota.
-;; Después de la ejecución de cada turno (juego-jugar-turno) deben ejecutar el simbolo correspondiente para mostrar en pantalla el estado del juego
-;; Ejemplo:
-;; (define simbolo (juego-jugar-turno .....)
-;; simbolo   ;; esto imprime contenido simbolo
-;; Las funciones asociadas a las cartas suerte y comunidad usted las define. Puede definirlas acá mismo en el script o en algún TDA asociado a ello (ejemplo: TDA_funciones_NOMBRE_RUT o en el TDA cartas).
-;; Para la implementación de las funciones de las cartas puede usar variaciones de una misma función evitando recaer en sólo el uso de una, ejemplo: "fn banco paga 50", "fn banco paga 100", "fn banco paga 200" es válido realizar estas variaciones.
+(provide carta
+         get-carta-id
+         get-carta-tipo
+         get-carta-descripcion
+         get-carta-accion)
 
-;; Script base -no cambiar-
-;; Este script base contiene 8 propiedades, 3 cartas suerte, 3 cartas comunidad
+; Provides de juego
 
-;;(require main_RUT_NOMBRE_APELLIDOS)
+(provide juego
+         juego-agregar-jugador
+         juego-lanzar-dados
+         juego-obtener-jugador-actual
+         get-jugadores
+         get-juego-tablero
+         get-dinero-banco
+         get-total-dados
+         get-turno-actual
+         get-impuestos
+         get-max-casas
+         get-max-hotel
+         getDadoRandom
+         myRandom)
+
+; Provides de jugador
+
+(provide jugador
+         get-jugador-id
+         get-jugador-nombre
+         get-jugador-dinero
+         get-jugador-propiedades
+         get-jugador-carcel
+         get-cartas-salir-carcel
+         jugador-posicion
+         jugador-mover
+         jugador-comprar-propiedad
+         jugador-calcular-renta)
+
+; Provides de propiedad
+
+(provide propiedad
+         get-propiedad-id
+         get-propiedad-nombre
+         get-propiedad-precio
+         get-propiedad-renta
+         get-propiedad-dueño
+         get-propiedad-casas
+         get-propiedad-eshotel
+         get-propiedad-eshipotecada)
+
+; Provides de tablero
+
+(provide tablero
+         tablero-agregar-propiedad
+         tablero-obtener-propiedad
+         get-carta-suerte
+         get-carta-comunidad
+         get-casilla-especial)
+
+
+; testing
 
 ; 1. Creación de jugadores
 ;; Dominio TDA Jugador = id X nombre X dinero X propiedades X posicionActual X estaEnCarcel X totalCartasSalirEnCarcel (esto mide la cantidad actual de cartas salir cárcel que tiene el jugador, se comienza con 0)
@@ -141,6 +183,9 @@
 ;; Ambos jugadores comienzan en posición 0
 ; Turno 1: Carlos
 (display "TURNO 1: Carlos\n")
+#|;; Ambos jugadores comienzan en posición 0
+; Turno 1: Carlos
+(display "TURNO 1: Carlos\n")
 
 ;; (juego-jugar-turno) Se destaca en amarillo para indicar que este comando es el que iniciará y ejecutará toda la simulación del juego. Es el único comando que ejecutarán para la ejecución de turnos y avance del juego.  
 ;; Parámetros: 
@@ -150,9 +195,7 @@
 ;; construirHotel: #f
 ;; pagarMultaSalirCarcel: #f
 ;; usarTarjetaSalirCarcel: #f
-
-#|
-(define g3 (juego-jugar-turno g2 (lanzar-dados 3 4) #t #f #f #f)) 
+(define g3 (juego-jugar-turno g2 (lanzar-dados 3 4) #t #f #f #f) 
 g3 ;; esto imprime g3 para que lo podamos evaluar.
 
 ;; Explicación:
@@ -185,7 +228,7 @@ g3 ;; esto imprime g3 para que lo podamos evaluar.
 ;; construirHotel: #f
 ;; pagarMultaSalirCarcel: #f
 ;; usarTarjetaSalirCarcel: #f
-(define g4 (juego-jugar-turno g3 (lanzar-dados 2 5) #t #f #f #f)) 
+(define g4 (juego-jugar-turno g3 (lanzar-dados 2 5) #t #f #f #f) 
 g4 ;; esto imprime g4 
 
 
@@ -197,7 +240,7 @@ g4 ;; esto imprime g4
 ;; construirHotel: #f
 ;; pagarMultaSalirCarcel: #f
 ;; usarTarjetaSalirCarcel: #f
-(define g5 (juego-jugar-turno g4 (lanzar-dados 5 0) #t #f #f #f))
+(define g5 (juego-jugar-turno g4 (lanzar-dados 5 0) #t #f #f #f) 
 g5 ;; esto imprime g5 
 
 
@@ -206,12 +249,40 @@ g5 ;; esto imprime g5
 
 
 ; Turno 4: Ana. Ana se encuentra en posición 5 pero sigue en la cárcel. En este turno paga la multa para salir de la cárcel
+; cómo paga multa (la multa es siempre 500) entonces su presupuesto queda: 1500-500 = 1000
 ;; comprarPropiedad_or_construirCasa: #f
 ;; construirHotel: #f
 ;; pagarMultaSalirCarcel: #t
 ;; usarTarjetaSalirCarcel: #f
 
-(define g6 (juego-jugar-turno g5 (lanzar-dados 3 4) #f #f #t #f)) 
-g6 ;; esto imprime g6
+(define g6 (juego-jugar-turno g5 (lanzar-dados 3 4) #f #f #t #f) 
+g6 ;; esto imprime g6 
 
+
+
+
+; Turno 5: Carlos.
+; Dinero actual jugador 1 Carlos = 900
+; Posición actual jugador 1 Carlos = 11
+; usa semilla 1 y 2, dando los dados 1 y 2, por lo que la suma da 3
+; movimiento es de 11 a 14 (11 + 3)
+; Cae a posición 14 donde la propiedad cuesta 900 y como usa el valor #t de la propiedad entonces procede a comprar
+: dado que llego a 0 entonces el jugador esta en bancarrota y termina el juego
+; el juego termina cuando uno de los jugadores llega a 0
+; (define prop8 (propiedad 8 "Avenida Tennessee" 900 14 #f 0 #f #f))
+;; comprarPropiedad_or_construirCasa: #t
+;; construirHotel: #f
+;; pagarMultaSalirCarcel: #f
+;; usarTarjetaSalirCarcel: #f
+
+(define g7 (juego-jugar-turno g6 (lanzar-dados 1 2) #t #f #f #f) 
+g7 ;; esto imprime g7 
+;; para verificar que todo este correcto g7 va a entregar que el jugador 1 carlos tiene saldo/prespuesto 0 eso implica de que el jugador esta en bancarrota y no se puede seguir jugando
+
+; El comando jugador-esta-en-bancarrota se debe ejecutar al final del juego para que sepamos si efectivamente el juego termino
+(jugador-esta-en-bancarrota jugador1) ;; va a entregar #t
+;; Donde jugador1 lo pueden obtener con un selector del jugador en el juego
+;; Por ejemplo pueden ejecutarlo como:
+(jugador-esta-en-bancarrota (get-jugador g7))
+;; Fin script ejecución
 |#

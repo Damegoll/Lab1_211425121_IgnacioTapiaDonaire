@@ -1,11 +1,11 @@
 #lang racket
 (require "propiedad_211425121_Ignacio_TapiaDonaire.rkt")
-(provide tablero)
-(provide tablero-agregar-propiedad)
-(provide tablero-obtener-propiedad)
-(provide get-carta-suerte)
-(provide get-carta-comunidad)
-(provide get-casilla-especial)
+(provide tablero
+         tablero-agregar-propiedad
+         tablero-obtener-propiedad
+         get-carta-suerte
+         get-carta-comunidad
+         get-casilla-especial)
 
 
 ; Descripción: Constructor para guardar la información de las casillas en CAPITALIA
@@ -23,8 +23,8 @@
 ; REC: add-property (tablero)
 ; Tipo recursion: no aplica
 
-(define (tablero-agregar-propiedad tableroActual prop pos)
-  (cons (append (car tableroActual) (list prop)) (cdr tableroActual)))
+(define (tablero-agregar-propiedad tableroActual prop)
+  (append (append (car tableroActual) (list prop)) (cdr tableroActual)))
 
 ; -----------------------------------------------------------------
 

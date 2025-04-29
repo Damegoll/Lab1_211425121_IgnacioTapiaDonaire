@@ -1,16 +1,17 @@
 #lang racket
+(require "juego_211425121_Ignacio_TapiaDonaire.rkt")
 (require "propiedad_211425121_Ignacio_TapiaDonaire.rkt")
-(provide jugador)
-(provide get-jugador-id)
-(provide get-jugador-nombre)
-(provide get-jugador-dinero)
-(provide get-jugador-propiedades)
-(provide jugador-posicion)
-(provide get-jugador-carcel)
-(provide get-cartas-salir-carcel)
-(provide jugador-mover)
-(provide jugador-comprar-propiedad)
-(provide jugador-calcular-renta)
+(provide jugador
+         get-jugador-id
+         get-jugador-nombre
+         get-jugador-dinero
+         get-jugador-propiedades
+         get-jugador-carcel
+         get-cartas-salir-carcel
+         jugador-posicion
+         jugador-mover
+         jugador-comprar-propiedad
+         jugador-calcular-renta)
 
 ; -----------------------------------------------------------------
 
@@ -149,7 +150,7 @@
       (get-jugador-id jugadorCompra)
       (get-jugador-nombre jugadorCompra)
       (- (get-jugador-dinero jugadorCompra) (get-propiedad-precio propiedadCompra))
-      propiedadCompra
+      (append (get-jugador-propiedades jugadorCompra) (list propiedadCompra))
       (jugador-posicion jugadorCompra)
       (get-jugador-carcel jugadorCompra)
       (get-cartas-salir-carcel jugadorCompra)))))
