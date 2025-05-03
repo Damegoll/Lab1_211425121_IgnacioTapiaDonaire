@@ -21,15 +21,21 @@
          juego-lanzar-dados
          juego-obtener-jugador-actual
          juego-extraer-carta
+         juego-jugar-turno
          get-jugadores
          get-juego-tablero
          get-dinero-banco
          get-total-dados
+         juego-turno
          get-impuestos
          get-max-casas
          get-max-hotel
          getDadoRandom
-         myRandom)
+         myRandom
+         juego-tablero-propiedades
+         juego-tablero-cartas
+         juego-tablero-casillas-especiales
+         juego-actualizar-jugador)
 
 ; Provides de jugador
 
@@ -44,7 +50,8 @@
          jugador-mover
          jugador-comprar-propiedad
          jugador-calcular-renta
-         jugador-esta-en-bancarrota)
+         jugador-esta-en-bancarrota
+         jugador-pagar-renta)
 
 ; Provides de propiedad
 
@@ -191,9 +198,12 @@
 (display "TURNO 1: Carlos\n")
 
 
-#|;; Ambos jugadores comienzan en posición 0
+;; Ambos jugadores comienzan en posición 0
 ; Turno 1: Carlos
 (display "TURNO 1: Carlos\n")
+
+(define valorDados
+  (juego-lanzar-dados 1 2))
 
 ;; (juego-jugar-turno) Se destaca en amarillo para indicar que este comando es el que iniciará y ejecutará toda la simulación del juego. Es el único comando que ejecutarán para la ejecución de turnos y avance del juego.  
 ;; Parámetros: 
@@ -203,7 +213,7 @@
 ;; construirHotel: #f
 ;; pagarMultaSalirCarcel: #f
 ;; usarTarjetaSalirCarcel: #f
-(define g3 (juego-jugar-turno g2 (lanzar-dados 3 4) #t #f #f #f) 
+(define g3 (juego-jugar-turno g2 (juego-lanzar-dados 3 4) #t #f #f #f)) 
 g3 ;; esto imprime g3 para que lo podamos evaluar.
 
 ;; Explicación:
@@ -236,7 +246,7 @@ g3 ;; esto imprime g3 para que lo podamos evaluar.
 ;; construirHotel: #f
 ;; pagarMultaSalirCarcel: #f
 ;; usarTarjetaSalirCarcel: #f
-(define g4 (juego-jugar-turno g3 (lanzar-dados 2 5) #t #f #f #f) 
+(define g4 (juego-jugar-turno g3 (juego-lanzar-dados 2 5) #t #f #f #f)) 
 g4 ;; esto imprime g4 
 
 
@@ -248,7 +258,8 @@ g4 ;; esto imprime g4
 ;; construirHotel: #f
 ;; pagarMultaSalirCarcel: #f
 ;; usarTarjetaSalirCarcel: #f
-(define g5 (juego-jugar-turno g4 (lanzar-dados 5 0) #t #f #f #f) 
+(display "TURNO 3: Carlos\n")
+(define g5 (juego-jugar-turno g4 (juego-lanzar-dados 5 0) #t #f #f #f)) 
 g5 ;; esto imprime g5 
 
 
@@ -262,8 +273,8 @@ g5 ;; esto imprime g5
 ;; construirHotel: #f
 ;; pagarMultaSalirCarcel: #t
 ;; usarTarjetaSalirCarcel: #f
-
-(define g6 (juego-jugar-turno g5 (lanzar-dados 3 4) #f #f #t #f) 
+(display "TURNO 4: Ana\n")
+(define g6 (juego-jugar-turno g5 (juego-lanzar-dados 3 4) #f #f #t #f)) 
 g6 ;; esto imprime g6 
 
 
@@ -275,25 +286,20 @@ g6 ;; esto imprime g6
 ; usa semilla 1 y 2, dando los dados 1 y 2, por lo que la suma da 3
 ; movimiento es de 11 a 14 (11 + 3)
 ; Cae a posición 14 donde la propiedad cuesta 900 y como usa el valor #t de la propiedad entonces procede a comprar
-: dado que llego a 0 entonces el jugador esta en bancarrota y termina el juego
+; dado que llego a 0 entonces el jugador esta en bancarrota y termina el juego
 ; el juego termina cuando uno de los jugadores llega a 0
 ; (define prop8 (propiedad 8 "Avenida Tennessee" 900 14 #f 0 #f #f))
 ;; comprarPropiedad_or_construirCasa: #t
 ;; construirHotel: #f
 ;; pagarMultaSalirCarcel: #f
 ;; usarTarjetaSalirCarcel: #f
-
-(define g7 (juego-jugar-turno g6 (lanzar-dados 1 2) #t #f #f #f) 
+(display "TURNO 5: Carlos\n")
+(define g7 (juego-jugar-turno g6 (juego-lanzar-dados 1 2) #t #f #f #f))
 g7 ;; esto imprime g7 
 ;; para verificar que todo este correcto g7 va a entregar que el jugador 1 carlos tiene saldo/prespuesto 0 eso implica de que el jugador esta en bancarrota y no se puede seguir jugando
 
 ; El comando jugador-esta-en-bancarrota se debe ejecutar al final del juego para que sepamos si efectivamente el juego termino
-(jugador-esta-en-bancarrota jugador1) ;; va a entregar #t
+;; va a entregar #t
 ;; Donde jugador1 lo pueden obtener con un selector del jugador en el juego
 ;; Por ejemplo pueden ejecutarlo como:
-(jugador-esta-en-bancarrota (get-jugador g7))
 ;; Fin script ejecución
-|#
-
-; verificacion de funciones
-

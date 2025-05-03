@@ -1,27 +1,34 @@
 #lang racket
 (require "carta_211425121_Ignacio_TapiaDonaire.rkt")
+(require "tablero_211425121_Ignacio_TapiaDonaire.rkt")
 (provide juego
          juego-agregar-jugador
          juego-lanzar-dados
          juego-obtener-jugador-actual
          juego-extraer-carta
+         juego-jugar-turno
          get-jugadores
          get-juego-tablero
          get-dinero-banco
          get-total-dados
+         juego-turno
          get-impuestos
          get-max-casas
          get-max-hotel
          getDadoRandom
-         myRandom)
+         myRandom
+         juego-tablero-propiedades
+         juego-tablero-cartas
+         juego-tablero-casillas-especiales
+         juego-actualizar-jugador)
 
 ; Descipción: Constructor que inicializa el juego CAPITALIA
 ; DOM: player (lista) board (board) dineroBanco (int) numeroDados (int) turnoActual (int) tasaImpuesto (int) maximoCasas (int) maximoHoteles (int) estadoJuego (string)
 ; REC: juego (lista)
 ; Tipo recursion: No aplica
 
-(define (juego game-player board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles )
-  (list game-player board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles))
+(define (juego jugadores board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles )
+  (list jugadores board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles))
 
 ; -----------------------------------------------------------------
 
@@ -82,6 +89,16 @@
 
 (define (get-total-dados totalDados)
   (cadddr totalDados))
+
+; -----------------------------------------------------------------
+
+; Descripción: Selector que saca el turno actual
+; DOM: turnoActual (int)
+; REC: turnoActual (int)
+; Tipo recursion: no aplcia
+
+(define (juego-turno turnoActual)
+  (car (cddddr turnoActual)))
 
 ; -----------------------------------------------------------------
 
@@ -167,7 +184,77 @@
        (list-ref (caddr (cadr juego)) (modulo (myRandom (getDadoRandom 3)) (length (caddr (cadr juego))))))
       (else
        (display "de alguna manera escogiste algo que no existe, eres un genio")))))
+
 ; en caso de querer hacerla random verdaderamente debemos de quitar el myRandom y getDadoRandom y reemplazarlos con random a secas
+
+; -----------------------------------------------------------------
+
+; Descripción: Otro que permite ver la cantidad de veces que se repite un dado
+; DOM: dado1 (int) dado2 (int) contador (int)
+; REC: valor de los dados (int)
+; Tipo recursion: recursion de cola
+
+(define (ver-dados-repetidos dado1 dado2 contador)
+  ((lambda (dados)
+     (cond
+       ((>= contador 3) contador)
+       ((= (car dados) (cdr dados))
+        (ver-dados-repetidos (getDadoRandom (+ dado1 1))
+                             (getDadoRandom (+ dado2 1))
+                             (+ contador 1)))
+       (else contador)))))
+
+; -----------------------------------------------------------------
+
+; Descripción: selector para obtener las propiedades en juego
+; DOM: juego (juego)
+; REC: juego (tablero)
+; Tipo recursion: no aplica
+
+(define (juego-tablero-propiedades juego)
+  (car (get-juego-tablero juego)))
+
+; -----------------------------------------------------------------
+
+; Descripción: selector para obtener todas las cartas en juego
+; DOM: juego (juego)
+; REC: juego (tablero)
+; Tipo recursion: no aplica
+
+(define (juego-tablero-cartas juego)
+  (list (cadr (get-juego-tablero juego)) (caddr (get-juego-tablero juego))))
+
+; -----------------------------------------------------------------
+
+; Descripción: selector para obtener las casillas especiales en juego
+; DOM: juego (juego)
+; REC: juego (tablero)
+; Tipo recursion: no aplica
+ 
+(define (juego-tablero-casillas-especiales juego)
+  (cadddr (get-juego-tablero juego)))
+
+; -----------------------------------------------------------------
+
+; Descripción: modificador que cambia la posicion del jugador en el tablero
+; DOM: 
+; REC:
+; Tipo recursion: no aplica
+
+(define (juego-actualizar-jugador jugadores nuevoJugador)
+  (map (lambda (jugador)
+         (if (= (car jugador) (car nuevoJugador))
+             nuevoJugador
+             jugador))
+       jugadores))
+
+; -----------------------------------------------------------------
+
+; Descripción:
+; DOM:
+; REC:
+; Tipo recursion:
+
 
 ; -----------------------------------------------------------------
 
@@ -176,7 +263,13 @@
 ; REC: juego(juego)
 ; Tipo recursion: no aplica (por ahora)
 
-#|(define (juego-jugar-turno juegoActual valorDados comprarPropiedad_or_construirCasa construirHotel pagarMultaSalirCarcel usarTarjetaSalirCarcel)
+(define (juego-jugar-turno juegoActual valorDados comprarPropiedad_or_construirCasa construirHotel pagarMultaSalirCarcel usarTarjetaSalirCarcel)
   (cond
-    ((eq? comprarPropiedad_or_construirCasa #t)
-     ())))|#
+    ((= (car valorDados) (cdr valorDados))
+     (ver-dados-repetidos (car valorDados) (cdr valorDados) 0)
+     juegoActual)
+    (else
+     juegoActual)))
+
+; -----------------------------------------------------------------
+
