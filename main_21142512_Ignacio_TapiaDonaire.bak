@@ -1,0 +1,80 @@
+#lang racket
+
+(require "carta_211425121_Ignacio_TapiaDonaire.rkt")
+(require "juego_211425121_Ignacio_TapiaDonaire.rkt")
+(require "jugador_211425121_Ignacio_TapiaDonaire.rkt")
+(require "propiedad_211425121_Ignacio_TapiaDonaire.rkt")
+(require "tablero_211425121_Ignacio_TapiaDonaire.rkt")
+
+; Provides de carta
+
+(provide carta
+         get-carta-id
+         get-carta-tipo
+         get-carta-descripcion
+         get-carta-accion)
+
+; Provides de juego
+
+(provide juego
+         juego-agregar-jugador
+         juego-lanzar-dados
+         juego-obtener-jugador-actual
+         juego-extraer-carta
+         juego-jugar-turno
+         get-jugadores
+         get-juego-tablero
+         get-dinero-banco
+         get-total-dados
+         juego-turno
+         get-impuestos
+         get-max-casas
+         get-max-hotel
+         getDadoRandom
+         myRandom
+         juego-tablero-propiedades
+         juego-tablero-cartas
+         juego-tablero-casillas-especiales)
+
+; Provides de jugador
+
+(provide jugador
+         get-jugador-id
+         get-jugador-nombre
+         get-jugador-dinero
+         get-jugador-propiedades
+         get-jugador-carcel
+         get-cartas-salir-carcel
+         jugador-posicion
+         jugador-mover
+         jugador-comprar-propiedad
+         jugador-calcular-renta
+         jugador-esta-en-bancarrota
+         jugador-pagar-renta)
+
+; Provides de propiedad
+
+(provide propiedad
+         get-propiedad-id
+         get-propiedad-nombre
+         get-propiedad-precio
+         get-propiedad-renta
+         get-propiedad-dueño
+         get-propiedad-casas
+         get-propiedad-eshotel
+         get-propiedad-eshipotecada
+         propiedad-actualizar-renta
+         propiedad-construir-casa
+         propiedad-construir-hotel
+         propiedad-hipotecar
+         propiedad-calcular-renta
+         propiedad-actualizar-dueño)
+
+; Provides de tablero
+
+(provide tablero
+         tablero-agregar-propiedad
+         tablero-obtener-propiedad
+         get-carta-suerte
+         get-carta-comunidad
+         get-casilla-especial)

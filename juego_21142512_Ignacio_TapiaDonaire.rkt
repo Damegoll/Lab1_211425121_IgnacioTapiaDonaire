@@ -1,6 +1,8 @@
 #lang racket
-(require "carta_211425121_Ignacio_TapiaDonaire.rkt")
-(require "tablero_211425121_Ignacio_TapiaDonaire.rkt")
+(require "carta_21142512_Ignacio_TapiaDonaire.rkt")
+(require "tablero_21142512_Ignacio_TapiaDonaire.rkt")
+(require "jugador_21142512_Ignacio_TapiaDonaire.rkt")
+(require "propiedad_21142512_Ignacio_TapiaDonaire.rkt")
 (provide juego
          juego-agregar-jugador
          juego-lanzar-dados
@@ -19,8 +21,7 @@
          myRandom
          juego-tablero-propiedades
          juego-tablero-cartas
-         juego-tablero-casillas-especiales
-         juego-actualizar-jugador)
+         juego-tablero-casillas-especiales)
 
 ; Descipción: Constructor que inicializa el juego CAPITALIA
 ; DOM: player (lista) board (board) dineroBanco (int) numeroDados (int) turnoActual (int) tasaImpuesto (int) maximoCasas (int) maximoHoteles (int) estadoJuego (string)
@@ -43,7 +44,7 @@
 ; -----------------------------------------------------------------
 
 ; Descripción: Selector que obtiene el turno del jugador actual
-; DOM: jugadorTurno (juego)
+; DOM: juegoNow (juego)
 ; REC: turnoActual (juego)
 ; Tipo recursion: no aplica
 
@@ -185,7 +186,7 @@
       (else
        (display "de alguna manera escogiste algo que no existe, eres un genio")))))
 
-; en caso de querer hacerla random verdaderamente debemos de quitar el myRandom y getDadoRandom y reemplazarlos con random a secas
+;; en caso de querer hacerla random verdaderamente debemos de quitar el myRandom y getDadoRandom y reemplazarlos con random a secas
 
 ; -----------------------------------------------------------------
 
@@ -236,40 +237,14 @@
 
 ; -----------------------------------------------------------------
 
-; Descripción: modificador que cambia la posicion del jugador en el tablero
-; DOM: 
-; REC:
-; Tipo recursion: no aplica
-
-(define (juego-actualizar-jugador jugadores nuevoJugador)
-  (map (lambda (jugador)
-         (if (= (car jugador) (car nuevoJugador))
-             nuevoJugador
-             jugador))
-       jugadores))
-
-; -----------------------------------------------------------------
-
-; Descripción:
-; DOM:
-; REC:
-; Tipo recursion:
-
-
-; -----------------------------------------------------------------
-
 ; Descripción: Modificador que permite jugar al juego
 ; DOM: jugarAhora (juego) dadosJuego (pair)
 ; REC: juego(juego)
 ; Tipo recursion: no aplica (por ahora)
 
+;; se asume que el dar los parametros es para cuando se puedan o no hacer las acciones
+
 (define (juego-jugar-turno juegoActual valorDados comprarPropiedad_or_construirCasa construirHotel pagarMultaSalirCarcel usarTarjetaSalirCarcel)
-  (cond
-    ((= (car valorDados) (cdr valorDados))
-     (ver-dados-repetidos (car valorDados) (cdr valorDados) 0)
-     juegoActual)
-    (else
-     juegoActual)))
+  juegoActual)
 
 ; -----------------------------------------------------------------
-

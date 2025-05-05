@@ -1,0 +1,28 @@
+Escala:
+1 = Implementación completa sin problemas
+0,75 = Implementacion con problemas menores
+0,5 = Implementación con funcionamiento irregular
+0,25 = Implementación con problemas mayores
+0 = No realizado
+
+RF02 TDA Jugador: 1
+RF03 TDA Propiedad: 1
+RF04 TDA Carta: 1
+RF05 TDA Tablero: 1
+RF06 TDA Juego: 1
+RF07 Agregar propiedad: 1
+RF08 Agregar jugador: 1
+RF09 Obtener jugador actual: 0.25
+RF10 Lanzar dados: 1
+RF11 Mover jugador: 1
+RF12 Comprar propiedad: 1
+RF13 Calcular renta jugador: 0.5
+RF14 Calcular renta propiedad: 1
+RF15 Construir casa: 1
+RF16 Construir hotel: 1
+RF17 Pagar renta: 0.25
+RF18 Hipotecar propiedad: 1
+RF19 Extraer carta: 0.5
+RF20 Verificar bancarrota: 1
+RF21 Jugar turno: 0
+

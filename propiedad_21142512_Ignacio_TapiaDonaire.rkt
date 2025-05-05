@@ -1,5 +1,4 @@
 #lang racket
-(require "juego_211425121_Ignacio_TapiaDonaire.rkt")
 (provide propiedad
          get-propiedad-id
          get-propiedad-nombre
@@ -8,7 +7,13 @@
          get-propiedad-dueño
          get-propiedad-casas
          get-propiedad-eshotel
-         get-propiedad-eshipotecada)
+         get-propiedad-eshipotecada
+         propiedad-actualizar-renta
+         propiedad-construir-casa
+         propiedad-construir-hotel
+         propiedad-hipotecar
+         propiedad-calcular-renta
+         propiedad-actualizar-dueño)
 
 ; Descripción: Constructor para crear las propiedades dentro de CAPITALIA
 ; DOM: id (int) nombre (string) precio (int) renta (int) color (string) dueño (jugador/null/boolean?) casas (int) esHotel (boolean) estaHipotecada (boolean)
@@ -123,12 +128,40 @@
 ; REC: propiedad (casas)
 ; Tipo recursion: No aplica
 
-(define (propiedad-construir-casa propCasa juegoCasa)
+(define (propiedad-construir-casa propCasa maxCasas)
   (cond
-    ((> (+ (get-propiedad-casas propCasa) 1) (get-max-casas juegoCasa)) 
-     (display "No se pueden agregar más casas"))
+    ((> (+ (get-propiedad-casas propCasa) 1) maxCasas) 
+     (display "No se pueden agregar más casas")
+     (propiedad
+      (get-propiedad-id propCasa)
+      (get-propiedad-nombre propCasa)
+      (get-propiedad-precio propCasa)
+      (get-propiedad-renta propCasa)
+      (get-propiedad-dueño propCasa)
+      (get-propiedad-casas propCasa)
+      (get-propiedad-eshotel propCasa)
+      (get-propiedad-eshipotecada propCasa)))
+    ((eq? (get-propiedad-eshotel #t) #t)
+     (display "Un hotel fue construido, no se pueden construir casas")
+     (propiedad
+      (get-propiedad-id propCasa)
+      (get-propiedad-nombre propCasa)
+      (get-propiedad-precio propCasa)
+      (get-propiedad-renta propCasa)
+      (get-propiedad-dueño propCasa)
+      (get-propiedad-casas propCasa)
+      (get-propiedad-eshotel propCasa)
+      (get-propiedad-eshipotecada propCasa)))
     (else
-     (+ (get-propiedad-casas propCasa) 1))))
+     (propiedad
+      (get-propiedad-id propCasa)
+      (get-propiedad-nombre propCasa)
+      (get-propiedad-precio propCasa)
+      (get-propiedad-renta propCasa)
+      (get-propiedad-dueño propCasa)
+      (+ (get-propiedad-casas propCasa) 1)
+      (get-propiedad-eshotel propCasa)
+      (get-propiedad-eshipotecada propCasa)))))
 
 ; ------------------------------------------------------------------
 
@@ -137,10 +170,10 @@
 ; REC: propiedad (esHotel)
 ; Tipo recursion: No aplica
 
-(define (propiedad-construir-hotel propHotel juegoHotel)
+(define (propiedad-construir-hotel propHotel maxCasas)
   (cond
     ((or (get-propiedad-eshotel propHotel)
-         (< (get-propiedad-casas propHotel) (get-max-casas juegoHotel)))
+         (< (get-propiedad-casas propHotel) maxCasas))
      propHotel)
     (else
      (propiedad
@@ -177,8 +210,24 @@
 
 ; ------------------------------------------------------------------
 
+; Descripción:
+; DOM:
+; REC:
+; Tipo recursion:
+
+(define (propiedad-actualizar-dueño propDueño)
+  (propiedad
+   (get-propiedad-id propDueño)
+   (get-propiedad-nombre propDueño)
+   (get-propiedad-precio propDueño)
+   (get-propiedad-renta propDueño)
+   #t
+   (get-propiedad-casas propDueño)
+   (get-propiedad-eshotel propDueño)
+   (get-propiedad-eshipotecada propDueño)))
+
 ; Descripción: TDA Otro para calcular la renta de una propiedad
-; DOM: propiedadRenta (propiedad=
+; DOM: propiedadRenta (propiedad)
 ; REC: int (renta)
 ; Tipo recursion: no aplica
 
@@ -188,14 +237,17 @@
      (propiedad-actualizar-renta propiedadRenta 0))
     ((eq? (get-propiedad-eshotel propiedadRenta) #t)
      (propiedad-actualizar-renta propiedadRenta
-                                 (* 2 (+ (get-propiedad-renta propiedadRenta)
-                                         (* 0.8 (get-propiedad-renta propiedadRenta))))))
+                                 (+(* 2 (+ (get-propiedad-precio propiedadRenta)
+                                         (* 0.8 (get-propiedad-precio propiedadRenta))))
+                                   (* (get-propiedad-precio propiedadRenta)
+                                      (* 0.2 (get-propiedad-casas propiedadRenta))))))
     ((> (get-propiedad-casas propiedadRenta) 0)
      (propiedad-actualizar-renta propiedadRenta
-                                 (* (get-propiedad-renta propiedadRenta)
+                                 (* (get-propiedad-precio propiedadRenta)
                                     (+ 1 (* 0.2 (get-propiedad-casas propiedadRenta))))))
     (else
      (propiedad-actualizar-renta propiedadRenta
-                                 (get-propiedad-renta propiedadRenta)))))
+                                 (get-propiedad-precio propiedadRenta)))))
 
 ; ------------------------------------------------------------------
+

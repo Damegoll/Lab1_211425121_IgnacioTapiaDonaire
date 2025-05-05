@@ -1,27 +1,35 @@
 #lang racket
 (require "carta_211425121_Ignacio_TapiaDonaire.rkt")
+(require "tablero_211425121_Ignacio_TapiaDonaire.rkt")
+(require "jugador_211425121_Ignacio_TapiaDonaire.rkt")
+(require "propiedad_211425121_Ignacio_TapiaDonaire.rkt")
 (provide juego
          juego-agregar-jugador
          juego-lanzar-dados
          juego-obtener-jugador-actual
+         juego-extraer-carta
+         juego-jugar-turno
          get-jugadores
          get-juego-tablero
          get-dinero-banco
          get-total-dados
-         get-turno-actual
+         juego-turno
          get-impuestos
          get-max-casas
          get-max-hotel
          getDadoRandom
-         myRandom)
+         myRandom
+         juego-tablero-propiedades
+         juego-tablero-cartas
+         juego-tablero-casillas-especiales)
 
 ; Descipción: Constructor que inicializa el juego CAPITALIA
 ; DOM: player (lista) board (board) dineroBanco (int) numeroDados (int) turnoActual (int) tasaImpuesto (int) maximoCasas (int) maximoHoteles (int) estadoJuego (string)
 ; REC: juego (lista)
 ; Tipo recursion: No aplica
 
-(define (juego game-player board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles )
-  (list game-player board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles))
+(define (juego jugadores board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles )
+  (list jugadores board dineroBanco numeroDados turnoActual tasaImpuesto maximoCasas maximoHoteles))
 
 ; -----------------------------------------------------------------
 
@@ -36,14 +44,12 @@
 ; -----------------------------------------------------------------
 
 ; Descripción: Selector que obtiene el turno del jugador actual
-; DOM: jugadorTurno (juego)
+; DOM: juegoNow (juego)
 ; REC: turnoActual (juego)
 ; Tipo recursion: no aplica
 
-(define (juego-obtener-jugador-actual juegoAhora)
-  (let* ((jugadores (get-jugadores juegoAhora))
-         (indice-turno (get-turno-actual juego)))
-    (list-ref jugadores indice-turno)))
+(define (juego-obtener-jugador-actual juegoNow)
+  (car (car juegoNow)))
 
 ; -----------------------------------------------------------------
 
@@ -87,13 +93,13 @@
 
 ; -----------------------------------------------------------------
 
-; Descripción: Selector que saca el turno actual en juego
-; DOM: turnoJuego (juego)
+; Descripción: Selector que saca el turno actual
+; DOM: turnoActual (int)
 ; REC: turnoActual (int)
-; Tipo recursion: no aplica
+; Tipo recursion: no aplcia
 
-(define (get-turno-actual turnoJuego)
-  (car (cddddr turnoJuego)))
+(define (juego-turno turnoActual)
+  (car (cddddr turnoActual)))
 
 ; -----------------------------------------------------------------
 
@@ -165,15 +171,69 @@
 
 ; -----------------------------------------------------------------
 
-; Descripción: Modificador que extrae una carta aleatoria del mazo especificado
+; Descripción: Modificador que extrae una carta no aleatoria del mazo especificado
 ; DOM: juegoCarta (juego) mazoSacar (string)
 ; REC: carta (tipo)
 ; Tipo recursion: no aplica
 
-(define (juego-extraer-carta juegoCarta mazoSacar)
-  (list-ref
-   (filter (lambda (cartas) (string=? (list-ref cartas 1) (get-carta-tipo mazoSacar))) mazoSacar)
-   (random (length (filter (lambda (cartas) (string=? (list-ref cartas 1) (get-carta-tipo mazoSacar))) mazoSacar)))))
+(define juego-extraer-carta
+  (lambda (juego tipo)
+    (cond
+      ((string=? tipo "suerte")
+       (list-ref (cadr (cadr juego)) (modulo (myRandom (getDadoRandom 2)) (length (cadr (cadr juego))))))
+      ((string=? tipo "comunidad")
+       (list-ref (caddr (cadr juego)) (modulo (myRandom (getDadoRandom 3)) (length (caddr (cadr juego))))))
+      (else
+       (display "de alguna manera escogiste algo que no existe, eres un genio")))))
+
+;; en caso de querer hacerla random verdaderamente debemos de quitar el myRandom y getDadoRandom y reemplazarlos con random a secas
+
+; -----------------------------------------------------------------
+
+; Descripción: Otro que permite ver la cantidad de veces que se repite un dado
+; DOM: dado1 (int) dado2 (int) contador (int)
+; REC: valor de los dados (int)
+; Tipo recursion: recursion de cola
+
+(define (ver-dados-repetidos dado1 dado2 contador)
+  ((lambda (dados)
+     (cond
+       ((>= contador 3) contador)
+       ((= (car dados) (cdr dados))
+        (ver-dados-repetidos (getDadoRandom (+ dado1 1))
+                             (getDadoRandom (+ dado2 1))
+                             (+ contador 1)))
+       (else contador)))))
+
+; -----------------------------------------------------------------
+
+; Descripción: selector para obtener las propiedades en juego
+; DOM: juego (juego)
+; REC: juego (tablero)
+; Tipo recursion: no aplica
+
+(define (juego-tablero-propiedades juego)
+  (car (get-juego-tablero juego)))
+
+; -----------------------------------------------------------------
+
+; Descripción: selector para obtener todas las cartas en juego
+; DOM: juego (juego)
+; REC: juego (tablero)
+; Tipo recursion: no aplica
+
+(define (juego-tablero-cartas juego)
+  (list (cadr (get-juego-tablero juego)) (caddr (get-juego-tablero juego))))
+
+; -----------------------------------------------------------------
+
+; Descripción: selector para obtener las casillas especiales en juego
+; DOM: juego (juego)
+; REC: juego (tablero)
+; Tipo recursion: no aplica
+ 
+(define (juego-tablero-casillas-especiales juego)
+  (cadddr (get-juego-tablero juego)))
 
 ; -----------------------------------------------------------------
 
@@ -182,7 +242,9 @@
 ; REC: juego(juego)
 ; Tipo recursion: no aplica (por ahora)
 
-#|(define (juego-jugar-turno juegoActual valorDados comprarPropiedad_or_construirCasa construirHotel pagarMultaSalirCarcel usarTarjetaSalirCarcel)
-  (cond
-    ((eq? comprarPropiedad_or_construirCasa #t)
-     ())))|#
+;; se asume que el dar los parametros es para cuando se puedan o no hacer las acciones
+
+(define (juego-jugar-turno juegoActual valorDados comprarPropiedad_or_construirCasa construirHotel pagarMultaSalirCarcel usarTarjetaSalirCarcel)
+  juegoActual)
+
+; -----------------------------------------------------------------

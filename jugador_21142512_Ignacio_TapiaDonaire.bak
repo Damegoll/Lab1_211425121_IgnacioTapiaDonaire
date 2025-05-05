@@ -1,5 +1,4 @@
 #lang racket
-(require "juego_211425121_Ignacio_TapiaDonaire.rkt")
 (require "propiedad_211425121_Ignacio_TapiaDonaire.rkt")
 (provide jugador
          get-jugador-id
@@ -13,7 +12,8 @@
          jugador-comprar-propiedad
          jugador-calcular-renta
          jugador-esta-en-bancarrota
-         jugador-pagar-renta)
+         jugador-pagar-renta
+         jugador-actualizar-dinero)
 
 ; -----------------------------------------------------------------
 
@@ -129,6 +129,8 @@
    (get-jugador-carcel jugadorPlatita)
    (get-cartas-salir-carcel jugadorPlatita)))
 
+; -----------------------------------------------------------------
+
 ; Descripción: Modificador que cambia la posicion del jugador dado el valor de los dados
 ; DOM: jugador-mover(player) valor-dados(lista) 'pendiente'
 ; REC: posicion (int)
@@ -151,14 +153,30 @@
 
 (define (jugador-comprar-propiedad jugadorCompra propiedadCompra)
   (cond
-    ((eq? (get-propiedad-dueño propiedadCompra) #t) (display "La propiedad ya tiene dueño"))
-    ((< (get-jugador-dinero jugadorCompra) (get-propiedad-precio propiedadCompra)) (display "No tienes el dinero suficiente para comprar"))
+    ((eq? (get-propiedad-dueño propiedadCompra) #t) (display "La propiedad ya tiene dueño")
+                                                    (jugador
+                                                     (get-jugador-id jugadorCompra)
+                                                     (get-jugador-nombre jugadorCompra)
+                                                     (get-jugador-dinero jugadorCompra)
+                                                     (get-jugador-propiedades jugadorCompra)
+                                                     (jugador-posicion jugadorCompra)
+                                                     (get-jugador-carcel jugadorCompra)
+                                                     (get-cartas-salir-carcel jugadorCompra)))
+    ((< (get-jugador-dinero jugadorCompra) (get-propiedad-precio propiedadCompra)) (display "No tienes el dinero suficiente para comprar")
+                                                                                   (jugador
+                                                                                    (get-jugador-id jugadorCompra)
+                                                                                    (get-jugador-nombre jugadorCompra)
+                                                                                    (get-jugador-dinero jugadorCompra)
+                                                                                    (get-jugador-propiedades jugadorCompra)
+                                                                                    (jugador-posicion jugadorCompra)
+                                                                                    (get-jugador-carcel jugadorCompra)
+                                                                                    (get-cartas-salir-carcel jugadorCompra)))
     (else
      (jugador
       (get-jugador-id jugadorCompra)
       (get-jugador-nombre jugadorCompra)
       (- (get-jugador-dinero jugadorCompra) (get-propiedad-precio propiedadCompra))
-      (append (get-jugador-propiedades jugadorCompra) (list propiedadCompra))
+      (append (get-jugador-propiedades jugadorCompra) (list (propiedad-actualizar-dueño propiedadCompra)))
       (jugador-posicion jugadorCompra)
       (get-jugador-carcel jugadorCompra)
       (get-cartas-salir-carcel jugadorCompra)))))
@@ -170,7 +188,7 @@
 ; REC: int (monto de renta)
 ; Tipo recursion: no aplica
 
-(define (jugador-calcular-renta jugadorRenta)
+(define (jugador-calcular-renta jugadorRenta juegoActual)
   (apply + (map get-propiedad-renta (get-jugador-propiedades jugadorRenta))))
 
 ; -----------------------------------------------------------------

@@ -151,8 +151,8 @@
 ;; pagarMultaSalirCarcel: #f
 ;; usarTarjetaSalirCarcel: #f
 
-#|
-(define g3 (juego-jugar-turno g2 (lanzar-dados 3 4) #t #f #f #f)) 
+
+(define g3 (juego-jugar-turno g2 (juego-lanzar-dados 3 4) #t #f #f #f)) 
 g3 ;; esto imprime g3 para que lo podamos evaluar.
 
 ;; Explicación:
@@ -185,7 +185,7 @@ g3 ;; esto imprime g3 para que lo podamos evaluar.
 ;; construirHotel: #f
 ;; pagarMultaSalirCarcel: #f
 ;; usarTarjetaSalirCarcel: #f
-(define g4 (juego-jugar-turno g3 (lanzar-dados 2 5) #t #f #f #f)) 
+(define g4 (juego-jugar-turno g3 (juego-lanzar-dados 2 5) #t #f #f #f)) 
 g4 ;; esto imprime g4 
 
 
@@ -197,7 +197,7 @@ g4 ;; esto imprime g4
 ;; construirHotel: #f
 ;; pagarMultaSalirCarcel: #f
 ;; usarTarjetaSalirCarcel: #f
-(define g5 (juego-jugar-turno g4 (lanzar-dados 5 0) #t #f #f #f))
+(define g5 (juego-jugar-turno g4 (juego-lanzar-dados 5 0) #t #f #f #f))
 g5 ;; esto imprime g5 
 
 
@@ -211,7 +211,5 @@ g5 ;; esto imprime g5
 ;; pagarMultaSalirCarcel: #t
 ;; usarTarjetaSalirCarcel: #f
 
-(define g6 (juego-jugar-turno g5 (lanzar-dados 3 4) #f #f #t #f)) 
+(define g6 (juego-jugar-turno g5 (juego-lanzar-dados 3 4) #f #f #t #f)) 
 g6 ;; esto imprime g6
-
-|#
